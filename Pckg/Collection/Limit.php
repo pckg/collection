@@ -1,13 +1,13 @@
 <?php
 
-namespace Pckg\Database\Collection;
+namespace Pckg\Collection;
 
-use Pckg\Database\Collection;
+use Pckg\Collection;
 use LimitIterator;
 
 /**
  * Class Limit
- * @package Pckg\Database\Collection
+ * @package Pckg\Collection
  */
 class Limit extends Collection
 {

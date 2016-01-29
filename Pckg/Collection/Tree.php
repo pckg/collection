@@ -1,12 +1,12 @@
 <?php
 
-namespace Pckg\Database\Collection;
+namespace Pckg\Collection;
 
-use Pckg\Database\Collection;
+use Pckg\Collection;
 
 /**
  * Class Tree
- * @package Pckg\Database\Collection
+ * @package Pckg\Collection
  */
 class Tree extends Collection
 {

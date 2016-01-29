@@ -1,10 +1,10 @@
 <?php
 
-namespace Pckg\Database\Collection;
+namespace Pckg\Collection;
 
 /**
  * Class Iterator
- * @package Pckg\Database\Collection
+ * @package Pckg\Collection
  */
 class Iterator extends \EmptyIterator
 {

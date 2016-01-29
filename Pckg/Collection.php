@@ -1,10 +1,10 @@
 <?php
 
-namespace Pckg\Database;
+namespace Pckg;
 
 use ArrayAccess;
 use Exception;
-use Pckg\Database\Collection\Iterator;
+use Pckg\Collection\Iterator;
 
 /**
  * Class Collection

@@ -1,12 +1,12 @@
 <?php
 
-namespace Pckg\Database\Collection;
+namespace Pckg\Collection;
 
-use Pckg\Database\Collection;
+use Pckg\Collection;
 
 /**
  * Class Filter
- * @package Pckg\Database\Collection
+ * @package Pckg\Collection
  */
 class Filter extends Collection
 {

@@ -1,0 +1,21 @@
+{
+  "name": "pckg/collection",
+  "description": "PHP collection implementation",
+  "homepage": "https://github.com/pckg/collection",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Bojan Rajh",
+      "email": "schtr4jh@schtr4jh.net"
+    }
+  ],
+  "require": {
+    "pckg/concept": "dev-master"
+  },
+  "autoload": {
+    "psr-0": {
+      "Pckg": "src\\"
+    }
+  },
+  "minimum-stability": "dev"
+}

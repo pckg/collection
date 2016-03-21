@@ -2,8 +2,8 @@
 
 namespace Pckg\Collection;
 
-use Pckg\Collection;
 use LimitIterator;
+use Pckg\Collection;
 
 /**
  * Class Limit
@@ -13,7 +13,7 @@ class Limit extends Collection
 {
 
     /**
-     * @param $limitCount
+     * @param     $limitCount
      * @param int $limitOffset
      * @return array
      */

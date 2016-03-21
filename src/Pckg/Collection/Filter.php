@@ -12,8 +12,8 @@ class Filter extends Collection
 {
 
     /**
-     * @param $filterBy
-     * @param $val
+     * @param        $filterBy
+     * @param        $val
      * @param string $comparator
      * @return array
      * @throws \Exception

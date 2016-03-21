@@ -20,7 +20,8 @@ class Collection extends Iterator implements ArrayAccess
         return $this;
     }
 
-    public function toArray() {
+    public function toArray()
+    {
         return $this->__toArray();
     }
 

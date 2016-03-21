@@ -16,15 +16,7 @@ class Tree extends Collection
     protected $foreign;
 
     /* sets callback to retreive relation/key */
-    /**
-     * @param $foreign
-     */
-    public function setForeign($foreign)
-    {
-        $this->foreign = $foreign;
-    }
 
-    /* builds tree */
     /**
      * @param $foreign
      * @return array
@@ -42,36 +34,18 @@ class Tree extends Collection
         return $parents;
     }
 
+    /* builds tree */
+
+    /**
+     * @param $foreign
+     */
+    public function setForeign($foreign)
+    {
+        $this->foreign = $foreign;
+    }
+
     /* transforms parent into object/array and children */
-    /**
-     * @param $parent
-     * @return mixed
-     */
-    public function buildParent($parent)
-    {
-        $parent->getChildren = $this->buildChildren($parent);
-        $parent->subcontents = $parent->getChildren;
 
-        return $parent;
-    }
-
-    /* recursively builds parents */
-    /**
-     * @param null $parent
-     * @return array
-     */
-    public function buildChildren($parent = null)
-    {
-        $arrChildren = $this->getChildren($parent);
-
-        foreach ($arrChildren AS &$child) {
-            $child = $this->buildParent($child);
-        }
-
-        return $arrChildren;
-    }
-
-    /* returns records with $this->foreign != true */
     /**
      * @return array
      */
@@ -99,7 +73,39 @@ class Tree extends Collection
         return $arrParents;
     }
 
+    /* recursively builds parents */
+
+    /**
+     * @param $parent
+     * @return mixed
+     */
+    public function buildParent($parent)
+    {
+        $parent->getChildren = $this->buildChildren($parent);
+        $parent->subcontents = $parent->getChildren;
+
+        return $parent;
+    }
+
+    /* returns records with $this->foreign != true */
+
+    /**
+     * @param null $parent
+     * @return array
+     */
+    public function buildChildren($parent = null)
+    {
+        $arrChildren = $this->getChildren($parent);
+
+        foreach ($arrChildren AS &$child) {
+            $child = $this->buildParent($child);
+        }
+
+        return $arrChildren;
+    }
+
     /* returns records with $this->foreign != false */
+
     /**
      * @param null $parent
      * @return array

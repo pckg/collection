@@ -9,9 +9,7 @@
       "email": "schtr4jh@schtr4jh.net"
     }
   ],
-  "require": {
-    "pckg/concept": "dev-master"
-  },
+  "require": {},
   "autoload": {
     "psr-0": {
       "Pckg": "src\\"

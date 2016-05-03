@@ -216,8 +216,8 @@ class Collection extends Iterator implements ArrayAccess
 
     public function each($callback)
     {
-        foreach ($this->collection as $item) {
-            $callback($item);
+        foreach ($this->collection as &$item) {
+            $item = $callback($item);
         }
 
         return $this->collection;

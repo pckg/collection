@@ -216,11 +216,12 @@ class Collection extends Iterator implements ArrayAccess
 
     public function each($callback)
     {
-        foreach ($this->collection as &$item) {
-            $item = $callback($item);
+        $collection = new Collection();
+        foreach ($this->collection as $item) {
+            $collection->push($callback($item));
         }
 
-        return $this->collection;
+        return $collection;
     }
 
     public function offsetSet($offset, $value)

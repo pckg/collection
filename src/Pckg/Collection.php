@@ -5,6 +5,7 @@ namespace Pckg;
 use ArrayAccess;
 use Exception;
 use Pckg\Collection\Iterator;
+use Pckg\Database\Record;
 
 /**
  * Class Collection
@@ -25,6 +26,11 @@ class Collection extends Iterator implements ArrayAccess
         return $this->__toArray();
     }
 
+    public function toJSON()
+    {
+        return json_encode($this->__toArray());
+    }
+
 
     /**
      * @return array
@@ -41,14 +47,21 @@ class Collection extends Iterator implements ArrayAccess
             $values = $this->collection;
         }
 
-        foreach ($values as $key => $value) {
-            if (is_object($value)) {
-                $return[$key] = $this->__toArray($value, $depth - 1);
-            } else if (is_array($value)) {
-                $return[$key] = $this->__toArray($value, $depth - 1);
-            } else {
-                $return[$key] = $value;
+        if (is_array($values) || $values instanceof Collection) {
+            foreach ($values as $key => $value) {
+                if (is_object($value)) {
+                    $return[$key] = $this->__toArray($value, $depth - 1);
+
+                } else if (is_array($value)) {
+                    $return[$key] = $this->__toArray($value, $depth - 1);
+
+                } else {
+                    $return[$key] = $value;
+
+                }
             }
+        } elseif ($values instanceof Record) {
+            $return = $values->__toArray(null, $depth - 1);
         }
 
         return $return;

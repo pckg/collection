@@ -227,14 +227,22 @@ class Collection extends Iterator implements ArrayAccess
         return $limit->getFirst();
     }
 
-    public function each($callback)
+    public function each($callback, $new = true)
     {
-        $collection = new Collection();
-        foreach ($this->collection as $item) {
-            $collection->push($callback($item));
-        }
+        if ($new) {
+            $collection = new Collection();
+            foreach ($this->collection as $item) {
+                $collection->push($callback($item));
+            }
 
-        return $collection;
+            return $collection;
+        } else {
+            foreach ($this->collection as $item) {
+                $callback($item);
+            }
+
+            return $this;
+        }
     }
 
     public function offsetSet($offset, $value)

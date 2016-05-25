@@ -4,6 +4,7 @@ namespace Pckg;
 
 use ArrayAccess;
 use Exception;
+use JsonSerializable;
 use Pckg\Collection\Iterator;
 use Pckg\Database\Record;
 
@@ -11,7 +12,7 @@ use Pckg\Database\Record;
  * Class Collection
  * @package Pckg\Database
  */
-class Collection extends Iterator implements ArrayAccess
+class Collection extends Iterator implements ArrayAccess, JsonSerializable
 {
 
     public function push($item)
@@ -269,4 +270,8 @@ class Collection extends Iterator implements ArrayAccess
         return isset($this->collection[$offset]) ? $this->collection[$offset] : null;
     }
 
+    public function jsonSerialize()
+    {
+        return $this->__toArray();
+    }
 }

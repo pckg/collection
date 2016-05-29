@@ -12,7 +12,7 @@ use Pckg\Database\Record;
  * Class Collection
  * @package Pckg\Database
  */
-class Collection extends Iterator implements ArrayAccess, JsonSerializable
+class Collection extends Iterator implements ArrayAccess, JsonSerializable, CollectionInterface
 {
 
     public function push($item)

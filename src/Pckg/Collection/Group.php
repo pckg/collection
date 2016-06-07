@@ -26,7 +26,12 @@ class Group extends Collection
         $arrGroupped = [];
 
         foreach ($this->collection AS $row) {
-            $arrGroupped[$this->getValue($row, $this->groupBy)][] = $row;
+            if (is_callable($groupBy)) {
+                $arrGroupped[$groupBy($row)][] = $row;
+
+            } else {
+                $arrGroupped[$this->getValue($row, $this->groupBy)][] = $row;
+            }
         }
 
         return $arrGroupped;

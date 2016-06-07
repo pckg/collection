@@ -15,9 +15,15 @@ use Pckg\Database\Record;
 class Collection extends Iterator implements ArrayAccess, JsonSerializable, CollectionInterface
 {
 
-    public function push($item)
+    public function push($item, $key = null)
     {
-        $this->collection[] = $item;
+        if ($key) {
+            $this->collection[$key] = $item;
+
+        } else {
+            $this->collection[] = $item;
+            
+        }
 
         return $this;
     }
@@ -228,13 +234,17 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coll
         return $limit->getFirst();
     }
 
-    public function each($callback, $new = true)
+    public function all() {
+        return $this->collection;
+    }
+
+    public function each($callback, $new = true, $preserveKey = true)
     {
         if ($new) {
             $class = static::class;
             $collection = new $class;
-            foreach ($this->collection as $item) {
-                $collection->push($callback($item));
+            foreach ($this->collection as $i => $item) {
+                $collection->push($callback($item), $preserveKey ? $i : null);
             }
 
             return $collection;
@@ -245,6 +255,10 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coll
 
             return $this;
         }
+    }
+    
+    public function map() {
+        
     }
 
     public function offsetSet($offset, $value)

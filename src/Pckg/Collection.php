@@ -7,6 +7,7 @@ use Exception;
 use JsonSerializable;
 use Pckg\Collection\Iterator;
 use Pckg\Database\Record;
+use Pckg\Database\Record\RecordInterface;
 
 /**
  * Class Collection
@@ -54,9 +55,12 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coll
             $values = $this->collection;
         }
 
-        if (is_array($values) || $values instanceof Collection) {
+        if (is_array($values) || object_implements($values, CollectionInterface::class)) {
             foreach ($values as $key => $value) {
-                if (is_object($value)) {
+                /*if (is_object($value) && object_implements($object, RecordInterface::class)) {
+                    $return[$key] = $object->toArray($object, $depth - 1);
+
+                } else */if (is_object($value)) {
                     $return[$key] = $this->__toArray($value, $depth - 1);
 
                 } else if (is_array($value)) {
@@ -224,6 +228,25 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coll
         return new Collection($limit->getLimited($limitCount, $limitOffset));
     }
 
+    public function keyBy($key) {
+        $collection = new Collection();
+        foreach ($this->collection as $item) {
+            $collection->push($item, $item->{$key});
+        }
+
+        return $collection;
+    }
+
+    public function removeEmpty() {
+        foreach ($this->collection as $key => $item) {
+            if (!$item) {
+                unset($this->collection[$key]);
+            }
+        }
+
+        return $this;
+    }
+
     /**
      * @return null
      */
@@ -287,6 +310,11 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coll
 
     public function jsonSerialize()
     {
-        return $this->__toArray();
+        try {
+            $serialize = $this->__toArray();
+        } catch (Exception $e) {
+            return exception($e);
+        }
+        return $serialize;
     }
 }

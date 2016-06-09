@@ -29,55 +29,6 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coll
         return $this;
     }
 
-    public function toArray()
-    {
-        return $this->__toArray();
-    }
-
-    public function toJSON()
-    {
-        return json_encode($this->__toArray());
-    }
-
-
-    /**
-     * @return array
-     */
-    public function __toArray($values = null, $depth = 5)
-    {
-        $return = [];
-
-        if (!$depth) {
-            return;
-        }
-
-        if (!$values) {
-            $values = $this->collection;
-        }
-
-        if (is_array($values) || object_implements($values, CollectionInterface::class)) {
-            foreach ($values as $key => $value) {
-                /*if (is_object($value) && object_implements($object, RecordInterface::class)) {
-                    $return[$key] = $object->toArray($object, $depth - 1);
-
-                } else */if (is_object($value)) {
-                    $return[$key] = $this->__toArray($value, $depth - 1);
-
-                } else if (is_array($value)) {
-                    $return[$key] = $this->__toArray($value, $depth - 1);
-
-                } else {
-                    $return[$key] = $value;
-
-                }
-            }
-        } elseif ($values instanceof Record) {
-            $return = $values->__toArray(null, $depth - 1);
-        }
-
-        return $return;
-    }
-
     /* helper */
     /**
      * @param $object
@@ -308,6 +259,55 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coll
         return isset($this->collection[$offset]) ? $this->collection[$offset] : null;
     }
 
+    public function toArray()
+    {
+        return $this->__toArray();
+    }
+
+    public function toJSON()
+    {
+        return json_encode($this->__toArray());
+    }
+
+
+    /**
+     * @return array
+     */
+    public function __toArray($values = null, $depth = 5)
+    {
+        $return = [];
+
+        if (!$depth) {
+            return;
+        }
+
+        if (!$values) {
+            $values = $this->collection;
+        }
+
+        if (is_array($values) || object_implements($values, CollectionInterface::class)) {
+            foreach ($values as $key => $value) {
+                /*if (is_object($value) && object_implements($object, RecordInterface::class)) {
+                    $return[$key] = $object->toArray($object, $depth - 1);
+
+                } else */if (is_object($value)) {
+                    $return[$key] = $this->__toArray($value, $depth - 1);
+
+                } else if (is_array($value)) {
+                    $return[$key] = $this->__toArray($value, $depth - 1);
+
+                } else {
+                    $return[$key] = $value;
+
+                }
+            }
+        } elseif ($values instanceof Record) {
+            $return = $values->__toArray(null, $depth - 1);
+        }
+
+        return $return;
+    }
+
     public function jsonSerialize()
     {
         try {
@@ -317,4 +317,9 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coll
         }
         return $serialize;
     }
+
+    public function __toString() {
+        return json_encode($this->jsonSerialize());
+    }
+
 }

@@ -30,7 +30,7 @@ class Group extends Collection
                 $arrGroupped[$groupBy($row)][] = $row;
 
             } else {
-                $arrGroupped[$this->getValue($row, $this->groupBy)][] = $row;
+                $arrGroupped[$this->getValue($row, $groupBy)][] = $row;
             }
         }
 

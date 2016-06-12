@@ -11,22 +11,34 @@ use Pckg\Database\Record\RecordInterface;
 
 /**
  * Class Collection
+ *
  * @package Pckg\Database
  */
 class Collection extends Iterator implements ArrayAccess, JsonSerializable, CollectionInterface
 {
 
-    public function push($item, $key = null)
-    {
+    public function push($item, $key = null) {
         if ($key) {
             $this->collection[$key] = $item;
 
         } else {
             $this->collection[] = $item;
-            
+
         }
 
         return $this;
+    }
+
+    public function copy() {
+        return new static($this->collection);
+    }
+
+    public function copyTo(CollectionInterface $collection) {
+        $this->each(
+            function($item) use ($collection) {
+                $collection->push($item);
+            }
+        );
     }
 
     /* helper */
@@ -37,8 +49,7 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coll
      * @return mixed
      * @throws Exception
      */
-    protected function getValue($object, $key)
-    {
+    protected function getValue($object, $key) {
         if (is_object($object) && method_exists($object, $key)) {
             return $object->{$key}();
 
@@ -58,8 +69,7 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coll
      *
      * @return mixed
      */
-    public function getKey($key)
-    {
+    public function getKey($key) {
         return $this->collection[$key];
     }
 
@@ -68,8 +78,7 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coll
      *
      * @return bool
      */
-    public function keyExists($key)
-    {
+    public function keyExists($key) {
         return isset($this->collection[$key]);
     }
 
@@ -77,8 +86,7 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coll
     /**
      * @return Collection
      */
-    public function getIdAsKey()
-    {
+    public function getIdAsKey() {
         $list = new Collection\Lista($this->collection);
 
         return new Collection($list->getIdAsKey());
@@ -87,8 +95,7 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coll
     /**
      * @return Collection
      */
-    public function getList()
-    {
+    public function getList() {
         $list = new Collection\Lista($this->collection);
 
         return new Collection($list->getList());
@@ -97,8 +104,7 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coll
     /**
      * @return Collection
      */
-    public function getListID()
-    {
+    public function getListID() {
         $list = new Collection\Lista($this->collection);
 
         return new Collection($list->getListID());
@@ -109,8 +115,7 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coll
      *
      * @return Collection
      */
-    public function getCustomList($callback)
-    {
+    public function getCustomList($callback) {
         $list = new Collection\Lista($this->collection);
 
         return new Collection($list->getCustomList($callback));
@@ -121,8 +126,7 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coll
      *
      * @return Collection
      */
-    public function getTree($foreign)
-    {
+    public function getTree($foreign) {
         $tree = new Collection\Tree($this->collection);
 
         return new Collection($tree->getHierarchy($foreign));
@@ -133,8 +137,7 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coll
      *
      * @return Collection
      */
-    public function sortBy($sortBy)
-    {
+    public function sortBy($sortBy) {
         $sort = new Collection\Sort($this->collection);
 
         return new Collection($sort->getSorted($sortBy));
@@ -145,8 +148,7 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coll
      *
      * @return Collection
      */
-    public function groupBy($groupBy)
-    {
+    public function groupBy($groupBy) {
         $group = new Collection\Group($this->collection);
 
         return new Collection($group->getGroupped($groupBy));
@@ -159,8 +161,7 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coll
      *
      * @return Collection
      */
-    public function filter($filterBy, $value, $comparator = '==')
-    {
+    public function filter($filterBy, $value, $comparator = '==') {
         $filter = new Collection\Filter($this->collection);
 
         return new Collection($filter->getFiltered($filterBy, $value, $comparator));
@@ -172,8 +173,7 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coll
      *
      * @return Collection
      */
-    public function limit($limitCount, $limitOffset = 0)
-    {
+    public function limit($limitCount, $limitOffset = 0) {
         $limit = new Collection\Limit($this->collection);
 
         return new Collection($limit->getLimited($limitCount, $limitOffset));
@@ -182,7 +182,7 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coll
     public function keyBy($key) {
         $collection = new Collection();
         foreach ($this->collection as $item) {
-            $collection->push($item, $item->{$key});
+            $collection->push($item, is_object($item) ? $item->{$key} : $item[$key]);
         }
 
         return $collection;
@@ -201,8 +201,7 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coll
     /**
      * @return null
      */
-    public function first()
-    {
+    public function first() {
         $limit = new Collection\Limit($this->collection);
 
         return $limit->getFirst();
@@ -212,8 +211,7 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coll
         return $this->collection;
     }
 
-    public function each($callback, $new = true, $preserveKey = true)
-    {
+    public function each($callback, $new = true, $preserveKey = true) {
         if ($new) {
             $class = static::class;
             $collection = new $class;
@@ -230,13 +228,12 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coll
             return $this;
         }
     }
-    
+
     public function map() {
-        
+
     }
 
-    public function offsetSet($offset, $value)
-    {
+    public function offsetSet($offset, $value) {
         if (is_null($offset)) {
             $this->collection[] = $value;
         } else {
@@ -244,37 +241,30 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coll
         }
     }
 
-    public function offsetExists($offset)
-    {
+    public function offsetExists($offset) {
         return isset($this->collection[$offset]);
     }
 
-    public function offsetUnset($offset)
-    {
+    public function offsetUnset($offset) {
         unset($this->collection[$offset]);
     }
 
-    public function offsetGet($offset)
-    {
+    public function offsetGet($offset) {
         return isset($this->collection[$offset]) ? $this->collection[$offset] : null;
     }
 
-    public function toArray()
-    {
+    public function toArray() {
         return $this->__toArray();
     }
 
-    public function toJSON()
-    {
+    public function toJSON() {
         return json_encode($this->__toArray());
     }
-
 
     /**
      * @return array
      */
-    public function __toArray($values = null, $depth = 5)
-    {
+    public function __toArray($values = null, $depth = 5) {
         $return = [];
 
         if (!$depth) {
@@ -290,7 +280,8 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coll
                 /*if (is_object($value) && object_implements($object, RecordInterface::class)) {
                     $return[$key] = $object->toArray($object, $depth - 1);
 
-                } else */if (is_object($value)) {
+                } else */
+                if (is_object($value)) {
                     $return[$key] = $this->__toArray($value, $depth - 1);
 
                 } else if (is_array($value)) {
@@ -308,13 +299,13 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coll
         return $return;
     }
 
-    public function jsonSerialize()
-    {
+    public function jsonSerialize() {
         try {
             $serialize = $this->__toArray();
         } catch (Exception $e) {
             return exception($e);
         }
+
         return $serialize;
     }
 

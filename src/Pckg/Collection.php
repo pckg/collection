@@ -17,6 +17,8 @@ use Pckg\Database\Record\RecordInterface;
 class Collection extends Iterator implements ArrayAccess, JsonSerializable, CollectionInterface
 {
 
+    protected $total;
+
     public function push($item, $key = null) {
         if ($key) {
             $this->collection[$key] = $item;
@@ -25,6 +27,18 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coll
             $this->collection[] = $item;
 
         }
+
+        return $this;
+    }
+
+    public function total()
+    {
+        return $this->total ? $this->total : count($this->collection);
+    }
+
+    public function setTotal($total)
+    {
+        $this->total = $total;
 
         return $this;
     }
@@ -202,9 +216,9 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coll
      * @return null
      */
     public function first() {
-        $limit = new Collection\Limit($this->collection);
-
-        return $limit->getFirst();
+        return count($this->collection) > 0
+            ? $this->collection[array_keys($this->collection)[0]]
+            : null;
     }
 
     public function all() {

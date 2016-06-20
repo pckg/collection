@@ -31,13 +31,11 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coll
         return $this;
     }
 
-    public function total()
-    {
+    public function total() {
         return $this->total ? $this->total : count($this->collection);
     }
 
-    public function setTotal($total)
-    {
+    public function setTotal($total) {
         $this->total = $total;
 
         return $this;
@@ -243,8 +241,13 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coll
         }
     }
 
-    public function map() {
-
+    public function map($field) {
+        return array_map(
+            function($item) use ($field) {
+                return $item->{$field};
+            },
+            $this->collection
+        );
     }
 
     public function offsetSet($offset, $value) {

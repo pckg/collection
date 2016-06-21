@@ -35,6 +35,19 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coll
         return $this->total ? $this->total : count($this->collection);
     }
 
+    public function sum(callable $callable) {
+        $sum = 0.0;
+
+        foreach ($this->collection as $item) {
+            $partial = $callable($item);
+            if ($partial > 0 || $partial < 0) {
+                $sum += $partial;
+            }
+        }
+
+        return $sum;
+    }
+
     public function setTotal($total) {
         $this->total = $total;
 
@@ -91,7 +104,7 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coll
      * @return bool
      */
     public function keyExists($key) {
-        return isset($this->collection[$key]);
+        return array_key_exists($key, $this->collection);
     }
 
     /* strategies */
@@ -194,7 +207,16 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coll
     public function keyBy($key) {
         $collection = new Collection();
         foreach ($this->collection as $item) {
-            $collection->push($item, is_object($item) ? $item->{$key} : $item[$key]);
+            $collection->push(
+                $item,
+                is_callable($key)
+                    ? $key($item)
+                    : (
+                is_object($item)
+                    ? $item->{$key}
+                    : $item[$key]
+                )
+            );
         }
 
         return $collection;
@@ -244,7 +266,9 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coll
     public function map($field) {
         return array_map(
             function($item) use ($field) {
-                return $item->{$field};
+                return is_callable($field)
+                    ? $field($item)
+                    : $item->{$field};
             },
             $this->collection
         );

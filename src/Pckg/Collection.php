@@ -7,7 +7,6 @@ use Exception;
 use JsonSerializable;
 use Pckg\Collection\Iterator;
 use Pckg\Database\Record;
-use Pckg\Database\Record\RecordInterface;
 
 /**
  * Class Collection
@@ -64,6 +63,18 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coll
                 $collection->push($item);
             }
         );
+    }
+
+    public function reduce(callable $callback, $preserveKeys = false) {
+        $collection = new self();
+
+        foreach ($this->collection as $key => $item) {
+            if ($callback($item)) {
+                $collection->push($item, $preserveKeys ? $key : null);
+            }
+        }
+
+        return $collection;
     }
 
     /* helper */

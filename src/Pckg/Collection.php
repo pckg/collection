@@ -30,6 +30,10 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coll
         return $this;
     }
 
+    public function getKeys() {
+        return array_keys($this->collection);
+    }
+
     public function total() {
         return $this->total ? $this->total : count($this->collection);
     }

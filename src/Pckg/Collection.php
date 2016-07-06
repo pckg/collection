@@ -30,6 +30,10 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coll
         return $this;
     }
 
+    public function slice($offset, $length = null, $preserve_keys = null) {
+        return new Collection(array_slice($this->collection, $offset, $length, $preserve_keys));
+    }
+
     public function getKeys() {
         return array_keys($this->collection);
     }
@@ -251,8 +255,14 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coll
      * @return null
      */
     public function first() {
-        return count($this->collection) > 0
+        return $this->collection
             ? $this->collection[array_keys($this->collection)[0]]
+            : null;
+    }
+
+    public function last() {
+        return $this->collection
+            ? $this->collection[array_reverse(array_keys($this->collection))[0]]
             : null;
     }
 

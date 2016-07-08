@@ -55,6 +55,16 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coll
         return $sum;
     }
 
+    public function has(callable $callable) {
+        foreach ($this->collection as $item) {
+            if ($callable($item)) {
+                return true;
+            }
+        }
+        
+        return false;
+    }
+
     public function setTotal($total) {
         $this->total = $total;
 

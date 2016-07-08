@@ -6,10 +6,12 @@ use Pckg\Collection;
 
 /**
  * Class Group
+ *
  * @package Pckg\Collection
  */
 class Group extends Collection
 {
+
     /**
      * @var
      */
@@ -18,6 +20,7 @@ class Group extends Collection
     /* builds groups */
     /**
      * @param $groupBy
+     *
      * @return array
      * @throws \Exception
      */

@@ -6,10 +6,12 @@ use Pckg\Collection;
 
 /**
  * Class Tree
+ *
  * @package Pckg\Collection
  */
 class Tree extends Collection
 {
+
     /**
      * @var
      */
@@ -19,6 +21,7 @@ class Tree extends Collection
 
     /**
      * @param $foreign
+     *
      * @return array
      */
     public function getHierarchy($foreign)
@@ -77,6 +80,7 @@ class Tree extends Collection
 
     /**
      * @param $parent
+     *
      * @return mixed
      */
     public function buildParent($parent)
@@ -91,6 +95,7 @@ class Tree extends Collection
 
     /**
      * @param null $parent
+     *
      * @return array
      */
     public function buildChildren($parent = null)
@@ -108,6 +113,7 @@ class Tree extends Collection
 
     /**
      * @param null $parent
+     *
      * @return array
      */
     public function getChildren($parent = null)

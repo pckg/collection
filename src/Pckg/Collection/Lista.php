@@ -6,6 +6,7 @@ use Pckg\Collection;
 
 /**
  * Class Lista
+ *
  * @package Pckg\Collection
  */
 class Lista extends Collection
@@ -73,6 +74,7 @@ class Lista extends Collection
 
     /**
      * @param $callback
+     *
      * @return array
      */
     public function getCustomList($callback)

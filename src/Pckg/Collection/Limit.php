@@ -7,6 +7,7 @@ use Pckg\Collection;
 
 /**
  * Class Limit
+ *
  * @package Pckg\Collection
  */
 class Limit extends Collection
@@ -15,6 +16,7 @@ class Limit extends Collection
     /**
      * @param     $limitCount
      * @param int $limitOffset
+     *
      * @return array
      */
     public function getLimited($limitCount, $limitOffset = 0)

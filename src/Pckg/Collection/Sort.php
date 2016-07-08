@@ -6,6 +6,7 @@ use Pckg\Collection;
 
 /**
  * Class Sort
+ *
  * @package Pckg\Collection
  */
 class Sort extends Collection
@@ -13,6 +14,7 @@ class Sort extends Collection
 
     /**
      * @param $sortBy
+     *
      * @return array
      */
     public function getSorted($sortBy)
@@ -30,6 +32,7 @@ class Sort extends Collection
 
     /**
      * @param $sortBy
+     *
      * @return array
      */
     public function groupAndSort($sortBy)

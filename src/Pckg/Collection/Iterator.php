@@ -4,10 +4,12 @@ namespace Pckg\Collection;
 
 /**
  * Class Iterator
+ *
  * @package Pckg\Collection
  */
 class Iterator extends \EmptyIterator
 {
+
     /**
      * @var array
      */

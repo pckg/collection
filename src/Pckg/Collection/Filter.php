@@ -6,6 +6,7 @@ use Pckg\Collection;
 
 /**
  * Class Filter
+ *
  * @package Pckg\Collection
  */
 class Filter extends Collection
@@ -15,6 +16,7 @@ class Filter extends Collection
      * @param        $filterBy
      * @param        $val
      * @param string $comparator
+     *
      * @return array
      * @throws \Exception
      */
@@ -26,24 +28,24 @@ class Filter extends Collection
             $objectValue = $this->getValue($row, $filterBy);
 
             if ((($comparator == '==')
-                && ((is_array($val) && in_array($objectValue, $val))
-                    || ($objectValue == $val)
-                )
-                || (($comparator == '===')
-                    && ($objectValue === $val)
-                )
-                || (($comparator == '<=')
-                    && ($objectValue <= $val)
-                )
-                || (($comparator == '>=')
-                    && ($objectValue >= $val)
-                )
-                || (($comparator == '!=')
-                    && ($objectValue != $val)
-                )
-                || (($comparator == '!==')
-                    && ($objectValue !== $val)
-                )
+                 && ((is_array($val) && in_array($objectValue, $val))
+                     || ($objectValue == $val)
+                 )
+                 || (($comparator == '===')
+                     && ($objectValue === $val)
+                 )
+                 || (($comparator == '<=')
+                     && ($objectValue <= $val)
+                 )
+                 || (($comparator == '>=')
+                     && ($objectValue >= $val)
+                 )
+                 || (($comparator == '!=')
+                     && ($objectValue != $val)
+                 )
+                 || (($comparator == '!==')
+                     && ($objectValue !== $val)
+                 )
             )
             ) {
                 $arrFiltered[] = $row;

@@ -288,11 +288,23 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coll
     /**
      * @return null
      */
-    public function first()
+    public function first(callable $filter = null)
     {
-        return $this->collection
-            ? $this->collection[array_keys($this->collection)[0]]
-            : null;
+        if (!$this->collection) {
+            return null;
+        }
+
+        if (!$filter) {
+            return $this->collection[array_keys($this->collection)[0]];
+        }
+
+        foreach ($this->collection as $item) {
+            if ($filter($item)) {
+                return $item;
+            }
+        }
+
+        return null;
     }
 
     public function last()

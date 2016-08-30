@@ -387,7 +387,7 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coll
     /**
      * @return array
      */
-    public function __toArray($values = null, $depth = 5)
+    public function __toArray($values = null, $depth = 6)
     {
         $return = [];
 

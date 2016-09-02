@@ -379,9 +379,9 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coll
         return $this->__toArray();
     }
 
-    public function toJSON()
+    public function toJSON($depth = 6)
     {
-        return json_encode((array)$this->__toArray(), JSON_OBJECT_AS_ARRAY | JSON_NUMERIC_CHECK);
+        return json_encode((array)$this->__toArray(null, $depth), JSON_OBJECT_AS_ARRAY | JSON_NUMERIC_CHECK);
     }
 
     /**

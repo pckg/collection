@@ -340,14 +340,21 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coll
 
     public function map($field)
     {
-        return array_map(
-            function($item) use ($field) {
-                return is_callable($field)
-                    ? $field($item)
-                    : $item->{$field};
-            },
-            $this->collection
+        return new static(
+            array_map(
+                function($item) use ($field) {
+                    return is_callable($field)
+                        ? $field($item)
+                        : $item->{$field};
+                },
+                $this->collection
+            )
         );
+    }
+
+    public function implode($separator)
+    {
+        return implode($separator, $this->collection);
     }
 
     public function offsetSet($offset, $value)

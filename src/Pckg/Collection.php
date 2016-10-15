@@ -352,6 +352,11 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coll
         );
     }
 
+    public function unique()
+    {
+        return new static(array_unique($this->collection));
+    }
+
     public function implode($separator)
     {
         return implode($separator, $this->collection);

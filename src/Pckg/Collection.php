@@ -383,7 +383,13 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coll
 
     public function offsetGet($offset)
     {
-        return isset($this->collection[$offset]) ? $this->collection[$offset] : null;
+        if (!array_key_exists($offset, $this->collection)) {
+            throw new Exception(
+                'Key ' . $offset . ' doesn\'t exist in collection ' . implode(',', array_keys($this->collection))
+            );
+        }
+
+        return $this->collection[$offset];
     }
 
     public function toArray()

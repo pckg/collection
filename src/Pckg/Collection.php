@@ -331,13 +331,13 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
             $class = static::class;
             $collection = new $class;
             foreach ($this->collection as $i => $item) {
-                $collection->push($callback($item), $preserveKey ? $i : null);
+                $collection->push($callback($item, $i), $preserveKey ? $i : null);
             }
 
             return $collection;
         } else {
-            foreach ($this->collection as $item) {
-                $callback($item);
+            foreach ($this->collection as $i => $item) {
+                $callback($item, $i);
             }
 
             return $this;

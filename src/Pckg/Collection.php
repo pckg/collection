@@ -3,6 +3,7 @@
 namespace Pckg;
 
 use ArrayAccess;
+use Countable;
 use Exception;
 use JsonSerializable;
 use Pckg\Collection\Iterator;
@@ -13,7 +14,7 @@ use Pckg\Database\Record;
  *
  * @package Pckg\Database
  */
-class Collection extends Iterator implements ArrayAccess, JsonSerializable, CollectionInterface
+class Collection extends Iterator implements ArrayAccess, JsonSerializable, Countable, CollectionInterface
 {
 
     protected $total;

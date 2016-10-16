@@ -149,6 +149,11 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coll
         return array_key_exists($key, $this->collection);
     }
 
+    public function hasKey($key)
+    {
+        return $this->keyExists($key);
+    }
+
     /* strategies */
     /**
      * @return Collection

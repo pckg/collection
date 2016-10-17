@@ -346,16 +346,13 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
 
     public function map($field)
     {
-        return new static(
-            array_map(
-                function($item) use ($field) {
-                    return is_callable($field)
-                        ? $field($item)
-                        : $item->{$field};
-                },
-                $this->collection
-            )
-        );
+        $collection = new static();
+
+        foreach ($this->collection as $i => $item) {
+            $collection->push(is_callable($field) ? $field($item, $i) : $item->{$field}, $i);
+        }
+
+        return $collection;
     }
 
     public function unique()

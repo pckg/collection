@@ -61,11 +61,15 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
         return $sum;
     }
 
-    public function has(callable $callable)
+    public function has($condition)
     {
         foreach ($this->collection as $item) {
-            if ($callable($item)) {
+            if (is_string($condition)) {
+                return in_array($condition, $this->collection);
+
+            } else if (is_callable($condition) && $condition($item)) {
                 return true;
+
             }
         }
 

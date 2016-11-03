@@ -47,12 +47,14 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
         return $this->total ? $this->total : count($this->collection);
     }
 
-    public function sum(callable $callable)
+    public function sum($callable)
     {
         $sum = 0.0;
 
         foreach ($this->collection as $item) {
-            $partial = $callable($item);
+            $partial = is_callable($callable)
+                ? $callable($item)
+                : $item->{$callable};
             if ($partial > 0 || $partial < 0) {
                 $sum += $partial;
             }

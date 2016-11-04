@@ -333,9 +333,8 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
 
     public function each($callback, $new = true, $preserveKey = true)
     {
-        if ($new) {
-            $class = static::class;
-            $collection = new $class;
+        if (false && $new) {
+            $collection = new static();
             foreach ($this->collection as $i => $item) {
                 $collection->push($callback($item, $i), $preserveKey ? $i : null);
             }

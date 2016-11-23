@@ -8,6 +8,7 @@ use Exception;
 use JsonSerializable;
 use Pckg\Collection\Iterator;
 use Pckg\Database\Record;
+use Throwable;
 
 /**
  * Class Collection
@@ -393,7 +394,11 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
     {
         if (!array_key_exists($offset, $this->collection)) {
             throw new Exception(
-                'Key ' . $offset . ' doesn\'t exist in collection ' . substr(implode(',', array_keys($this->collection)), 0, 20)
+                'Key ' . $offset . ' doesn\'t exist in collection ' . substr(
+                    implode(',', array_keys($this->collection)),
+                    0,
+                    20
+                )
             );
         }
 
@@ -453,8 +458,12 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
     {
         try {
             $serialize = $this->__toArray();
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             return exception($e);
+        }
+
+        if (!$serialize) {
+            return '[]';
         }
 
         return $serialize;

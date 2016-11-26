@@ -350,6 +350,16 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
         }
     }
 
+    public function eachNew($callback, $preserveKey = true)
+    {
+        $collection = new static();
+        foreach ($this->collection as $i => $item) {
+            $collection->push($callback($item, $i), $preserveKey ? $i : null);
+        }
+
+        return $collection;
+    }
+
     public function map($field)
     {
         $collection = new static();
@@ -463,7 +473,7 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
         }
 
         if (!$serialize) {
-            return '[]';
+            return [];
         }
 
         return $serialize;

@@ -360,6 +360,32 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
         return $collection;
     }
 
+    public function eachManual($callback)
+    {
+        $collection = new static();
+        foreach ($this->collection as $i => $item) {
+            $callback($item, $i, $collection);
+        }
+
+        return $collection;
+    }
+
+    public function flat($key)
+    {
+        $collection = new static();
+        $this->each(
+            function($item) use ($collection, $key) {
+                $item->{$key}->each(
+                    function($item) use ($collection) {
+                        $collection->push($item);
+                    }
+                );
+            }
+        );
+
+        return $collection;
+    }
+
     public function map($field)
     {
         $collection = new static();

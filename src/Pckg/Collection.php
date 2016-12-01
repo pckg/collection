@@ -55,7 +55,9 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
         foreach ($this->collection as $item) {
             $partial = is_callable($callable)
                 ? $callable($item)
-                : $item->{$callable};
+                : (is_object($item)
+                    ? $item->{$callable}
+                    : $item[$callable]);
             if ($partial > 0 || $partial < 0) {
                 $sum += $partial;
             }

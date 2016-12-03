@@ -22,7 +22,7 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
 
     public function push($item, $key = null)
     {
-        if ($key || count(func_get_args()) == 2) {
+        if ($key) {
             $this->collection[$key] = $item;
 
         } else {

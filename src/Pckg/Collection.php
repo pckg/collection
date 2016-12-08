@@ -406,7 +406,7 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
 
     public function implode($separator)
     {
-        return implode($separator, $this->collection);
+        return (new Stringify(implode($separator, $this->collection)));
     }
 
     public function offsetSet($offset, $value)

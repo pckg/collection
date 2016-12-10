@@ -443,9 +443,9 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
         return $this->collection[$offset];
     }
 
-    public function toArray()
+    public function toArray($values = null, $depth = 6)
     {
-        return $this->__toArray();
+        return $this->__toArray($values, $depth);
     }
 
     public function toJSON($depth = 6)

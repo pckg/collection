@@ -78,4 +78,5 @@ class Iterator extends \EmptyIterator
     {
         return count($this->collection);
     }
+    
 }

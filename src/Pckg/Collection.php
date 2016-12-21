@@ -69,7 +69,7 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
     /**
      * Remove element from beginning of array.
      */
-    public function shift($item)
+    public function shift()
     {
         if (!$this->collection) {
             return null;
@@ -427,35 +427,42 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
      *
      * @return Collection
      */
-    public function filter($filterBy, $value, $comparator = '==')
+    public function filter($filterBy, $value = null, $comparator = '==')
     {
         $arrFiltered = [];
 
-        foreach ($this->collection AS $row) {
-            $objectValue = $this->getValue($row, $filterBy);
+        foreach ($this->collection AS $i => $row) {
+            if (is_callable($filterBy)) {
+                if ($filterBy($row, $i)) {
+                    $arrFiltered[] = $row;
+                }
+            } else {
+                $objectValue = $this->getValue($row, $filterBy);
 
-            if ((($comparator == '==')
-                 && ((is_array($value) && in_array($objectValue, $value))
-                     || ($objectValue == $value)
-                 )
-                 || (($comparator == '===')
-                     && ($objectValue === $value)
-                 )
-                 || (($comparator == '<=')
-                     && ($objectValue <= $value)
-                 )
-                 || (($comparator == '>=')
-                     && ($objectValue >= $value)
-                 )
-                 || (($comparator == '!=')
-                     && ($objectValue != $value)
-                 )
-                 || (($comparator == '!==')
-                     && ($objectValue !== $value)
-                 )
-            )
-            ) {
-                $arrFiltered[] = $row;
+                if ((($comparator == '==')
+                     && ((is_array($value) && in_array($objectValue, $value))
+                         || ($objectValue == $value)
+                     )
+                     || (($comparator == '===')
+                         && ($objectValue === $value)
+                     )
+                     || (($comparator == '<=')
+                         && ($objectValue <= $value)
+                     )
+                     || (($comparator == '>=')
+                         && ($objectValue >= $value)
+                     )
+                     || (($comparator == '!=')
+                         && ($objectValue != $value)
+                     )
+                     || (($comparator == '!==')
+                         && ($objectValue !== $value)
+                     )
+                )
+                ) {
+                    $arrFiltered[] = $row;
+                }
+
             }
         }
 
@@ -613,8 +620,22 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
         return new static(array_unique($this->collection));
     }
 
-    public function implode($separator)
+    public function implode($separator, $lastSeparator = null)
     {
+        if (!$this->collection) {
+            return null;
+
+        } elseif (count($this->collection) == 1) {
+            return (string)$this->first();
+
+        } elseif ($lastSeparator) {
+            return implode(
+                       $separator,
+                       $this->slice(0, $this->count() - 1)->all()
+                   ) . $lastSeparator . (string)$this->last();
+
+        }
+
         return implode($separator, $this->collection);
     }
 

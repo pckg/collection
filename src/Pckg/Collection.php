@@ -568,6 +568,15 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
         /*}*/
     }
 
+    /**
+     * @param      $callback
+     * @param bool $preserveKey
+     *
+     * @return static
+     *
+     * @deprecated
+     * @see $this->map($callback)
+     */
     public function eachNew($callback, $preserveKey = true)
     {
         $collection = new static();

@@ -517,7 +517,7 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
     }
 
     /**
-     * @return null
+     * @return null|mixed|Record
      */
     public function first(callable $filter = null)
     {

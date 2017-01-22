@@ -405,7 +405,7 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
             return null;
         }
 
-        return array_rand($this->collection);
+        return $this->collection[array_rand($this->collection)];
     }
 
     /**

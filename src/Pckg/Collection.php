@@ -7,6 +7,7 @@ use Countable;
 use Exception;
 use JsonSerializable;
 use LimitIterator;
+use Pckg\Collection\Each;
 use Pckg\Collection\Iterator;
 use Pckg\Database\Record;
 use Throwable;
@@ -20,6 +21,15 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
 {
 
     protected $total;
+
+    public function __get($name)
+    {
+        if ($name == 'each') {
+            return new Each($this);
+        }
+
+        throw new Exception('Calling ' . $name . ' on Collection');
+    }
 
     /**
      * @param      $item

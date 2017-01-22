@@ -399,6 +399,15 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
         return $arr;
     }
 
+    public function random()
+    {
+        if (!$this->collection) {
+            return null;
+        }
+
+        return array_rand($this->collection);
+    }
+
     /**
      * @param $groupBy
      *

@@ -52,9 +52,9 @@ class Each
     {
         if ($name == 'each') {
             return new Each($this);
-        } else {
-            return (new Each($this, $name));
         }
+        
+        return (new Each($this, $name));
     }
 
 }

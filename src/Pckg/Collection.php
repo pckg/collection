@@ -648,6 +648,16 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
         return new static(array_unique($this->collection));
     }
 
+    public function min()
+    {
+        return min(...$this->collection);
+    }
+
+    public function max()
+    {
+        return max(...$this->collection);
+    }
+
     public function implode($separator, $lastSeparator = null)
     {
         if (!$this->collection) {

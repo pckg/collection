@@ -35,13 +35,14 @@ class Each
 
     public function __call($name, $args)
     {
-        $this->collection->goDeep(
+        $this->/*collection->*/goDeep(
             function($collection) use ($name, $args) {
-                $collection->each(
+                call_user_func_array([$collection, $name], $args);
+                /*$collection->each(
                     function($item) use ($name, $args) {
                         call_user_func_array([$item, $name], $args);
                     }
-                );
+                );*/
             }
         );
 
@@ -53,7 +54,7 @@ class Each
         if ($name == 'each') {
             return new Each($this);
         }
-        
+
         return (new Each($this, $name));
     }
 

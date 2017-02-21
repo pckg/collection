@@ -627,6 +627,15 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
         return $collection;
     }
 
+    public function trim()
+    {
+        return $this->map(
+            function($item) {
+                return trim($item);
+            }
+        );
+    }
+
     public function map($field)
     {
         $collection = new static();

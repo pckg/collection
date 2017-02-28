@@ -750,7 +750,9 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
                     $return[$key] = $this->__toArray($value, $depth - 1);
 
                 } else if (is_array($value)) {
-                    $return[$key] = $this->__toArray($value, $depth - 1);
+                    $return[$key] = $value
+                        ? $this->__toArray($value, $depth - 1)
+                        : $value;
 
                 } else {
                     $return[$key] = $value;

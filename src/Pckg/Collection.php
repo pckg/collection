@@ -1,6 +1,4 @@
-<?php
-
-namespace Pckg;
+<?php namespace Pckg;
 
 use ArrayAccess;
 use Countable;
@@ -98,7 +96,7 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
 
     public function slice($offset, $length = null, $preserve_keys = null)
     {
-        return new Collection(array_slice($this->collection, $offset, $length, $preserve_keys));
+        return new static(array_slice($this->collection, $offset, $length, $preserve_keys));
     }
 
     public function keys()
@@ -167,7 +165,7 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
             }
         }
 
-        return new Collection($chunks);
+        return new static($chunks);
     }
 
     public function shuffle()
@@ -292,7 +290,7 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
             $return[$row->id] = $row;
         }
 
-        return new Collection($return);
+        return new static($return);
     }
 
     /**
@@ -315,7 +313,7 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
             }
         }
 
-        return new Collection($return);
+        return new static($return);
     }
 
     /**
@@ -338,7 +336,7 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
             }
         }
 
-        return new Collection($return);
+        return new static($return);
     }
 
     /**
@@ -358,7 +356,7 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
             }
         }
 
-        return new Collection($return);
+        return new static($return);
     }
 
     /**
@@ -370,7 +368,7 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
     {
         $tree = new Collection\Tree($this->collection);
 
-        return new Collection($tree->getHierarchy($foreign));
+        return new static($tree->getHierarchy($foreign));
     }
 
     /**
@@ -388,7 +386,7 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
             }
         }
 
-        return new Collection($arrSort);
+        return new static($arrSort);
     }
 
     /**
@@ -436,7 +434,7 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
             }
         }
 
-        return new Collection($arrGroupped);
+        return new static($arrGroupped);
     }
 
     /**
@@ -485,7 +483,7 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
             }
         }
 
-        return new Collection($arrFiltered);
+        return new static($arrFiltered);
     }
 
     /**
@@ -502,12 +500,12 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
             $arrLimited[] = $row;
         }
 
-        return new Collection($arrLimited);
+        return new static($arrLimited);
     }
 
     public function keyBy($key)
     {
-        $collection = new Collection();
+        $collection = new static();
         foreach ($this->collection as $item) {
             $collection->push(
                 $item,

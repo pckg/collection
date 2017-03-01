@@ -59,17 +59,18 @@ class Tree extends Collection
         foreach ($this->collection AS $row) {
             if (!$row->{$this->foreign}) { // has no set parrent
                 $arrParents[] = $row;
-            } else {
-                $found = false;
-                foreach ($this->collection AS $row2) { // if has no parent
-                    if ($row->{$this->foreign} == $row2->id) {
-                        $found = true;
-                        break;
-                    }
+                continue;
+            }
+            
+            $found = false;
+            foreach ($this->collection AS $row2) { // if has no parent
+                if ($row->{$this->foreign} == $row2->id) {
+                    $found = true;
+                    break;
                 }
-                if (!$found) {
-                    $arrParents[] = $row;
-                }
+            }
+            if (!$found) {
+                $arrParents[] = $row;
             }
         }
 

@@ -645,6 +645,11 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
         return $collection;
     }
 
+    public function transform($rules)
+    {
+        return $this->map($rules)->all();
+    }
+
     public function unique()
     {
         return new static(array_unique($this->collection));

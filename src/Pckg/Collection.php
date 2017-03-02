@@ -444,7 +444,7 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
      *
      * @return Collection
      */
-    public function filter($filterBy, $value = null, $comparator = '==')
+    public function filter($filterBy, $value = true, $comparator = '==')
     {
         $arrFiltered = [];
 

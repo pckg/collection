@@ -638,8 +638,18 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
     {
         $collection = new static();
 
-        foreach ($this->collection as $i => $item) {
-            $collection->push(is_callable($field) ? $field($item, $i) : $item->{$field}, $i);
+        if (is_array($field)) {
+            foreach ($this->collection as $i => $item) {
+                $data = [];
+                foreach ($field as $f) {
+                    $data[$f] = $item->{$f};
+                }
+                $collection->push($data, $i);
+            }
+        } else {
+            foreach ($this->collection as $i => $item) {
+                $collection->push(is_callable($field) ? $field($item, $i) : $item->{$field}, $i);
+            }
         }
 
         return $collection;

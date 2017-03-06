@@ -41,10 +41,8 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
     {
         if ($key) {
             $this->collection[$key] = $item;
-
         } else {
             $this->collection[] = $item;
-
         }
 
         return $this;
@@ -180,10 +178,8 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
         foreach ($this->collection as $item) {
             if (is_string($condition)) {
                 return in_array($condition, $this->collection);
-
             } else if (is_callable($condition) && $condition($item)) {
                 return true;
-
             }
         }
 
@@ -235,13 +231,10 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
     {
         if (is_object($object) && method_exists($object, $key)) {
             return $object->{$key}();
-
         } else if (is_object($object) && isset($object->{$key})) {
             return $object->{$key};
-
         } else if (is_array($object) && array_key_exists($key, $object)) {
             return $object[$key];
-
         }
 
         throw new Exception("Cannot find key $key in object " . get_class($object));
@@ -428,7 +421,6 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
         foreach ($this->collection AS $row) {
             if (is_callable($groupBy)) {
                 $arrGroupped[$groupBy($row)][] = $row;
-
             } else {
                 $arrGroupped[$this->getValue($row, $groupBy)][] = $row;
             }
@@ -479,7 +471,6 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
                 ) {
                     $arrFiltered[] = $row;
                 }
-
             }
         }
 
@@ -642,7 +633,10 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
             foreach ($this->collection as $i => $item) {
                 $data = [];
                 foreach ($field as $f) {
-                    $data[$f] = $item->{$f};
+                    if ($f == '*') {
+                    } else {
+                        $data[$f] = $item->{$f};
+                    }
                 }
                 $collection->push($data, $i);
             }
@@ -679,16 +673,13 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
     {
         if (!$this->collection) {
             return null;
-
         } elseif (count($this->collection) == 1) {
             return (string)$this->first();
-
         } elseif ($lastSeparator) {
             return implode(
                        $separator,
                        $this->slice(0, $this->count() - 1)->all()
                    ) . $lastSeparator . (string)$this->last();
-
         }
 
         return implode($separator, $this->collection);
@@ -761,15 +752,12 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
                 } else */
                 if (is_object($value)) {
                     $return[$key] = $this->__toArray($value, $depth - 1);
-
                 } else if (is_array($value)) {
                     $return[$key] = $value
                         ? $this->__toArray($value, $depth - 1)
                         : $value;
-
                 } else {
                     $return[$key] = $value;
-
                 }
             }
         } elseif ($values instanceof Record) {

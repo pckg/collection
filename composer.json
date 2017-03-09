@@ -1,6 +1,6 @@
 {
   "name": "pckg/collection",
-  "description": "PHP collection implementation",
+  "description": "Implementation for more human-like dealing with collections",
   "homepage": "https://github.com/pckg/collection",
   "license": "MIT",
   "authors": [

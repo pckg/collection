@@ -39,7 +39,7 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
      */
     public function push($item, $key = null)
     {
-        if ($key) {
+        if ($key || $key === 0) {
             $this->collection[$key] = $item;
         } else {
             $this->collection[] = $item;

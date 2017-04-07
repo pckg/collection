@@ -625,20 +625,40 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
         );
     }
 
+    private function privateMap($item, $mapper)
+    {
+        $data = [];
+        foreach ($mapper as $f => $k) {
+            /**
+             * Map partial relation
+             */
+            if (is_array($k)) {
+                $data[$f] = $this->privateMap($item->{$f}, $k);
+                continue;
+            }
+            /**
+             * Map full relation.
+             */
+            if ($k == '*') {
+                $data[$f] = $item->toArray();
+                continue;
+            }
+            /**
+             * Map field.
+             */
+            $data[$k] = $item->{$k};
+        }
+
+        return $data;
+    }
+
     public function map($field)
     {
         $collection = new static();
 
         if (is_array($field)) {
             foreach ($this->collection as $i => $item) {
-                $data = [];
-                foreach ($field as $f) {
-                    if ($f == '*') {
-                    } else {
-                        $data[$f] = $item->{$f};
-                    }
-                }
-                $collection->push($data, $i);
+                $collection->push($this->privateMap($item, $field), $i);
             }
         } else {
             foreach ($this->collection as $i => $item) {

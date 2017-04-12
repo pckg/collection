@@ -392,7 +392,7 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
         $arr = [];
 
         foreach ($this->collection AS $row) {
-            $arr[$row->{$sortBy}()][] = $row;
+            $arr[is_callable($sortBy) ? $sortBy($row) : ($row->{$sortBy}())][] = $row;
         }
 
         ksort($arr);

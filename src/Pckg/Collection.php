@@ -681,11 +681,27 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
 
     public function min()
     {
+        if (!$this->collection) {
+            return null;
+        }
+
+        if (count($this->collection) == 1) {
+            return $this->first();
+        }
+
         return min(...$this->collection);
     }
 
     public function max()
     {
+        if (!$this->collection) {
+            return null;
+        }
+
+        if (count($this->collection) == 1) {
+            return $this->first();
+        }
+
         return max(...$this->collection);
     }
 

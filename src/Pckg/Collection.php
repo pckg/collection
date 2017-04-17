@@ -823,4 +823,21 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
         return json_encode($this->jsonSerialize());
     }
 
+    public function multiply($count)
+    {
+        if ($count < 0) {
+            return $this;
+        }
+
+        $items = [];
+
+        for ($i = 0; $i < $count; $i++) {
+            foreach ($this->collection as $item) {
+                $items[] = $item;
+            }
+        }
+
+        return new Collection($items);
+    }
+
 }

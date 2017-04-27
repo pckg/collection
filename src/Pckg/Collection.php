@@ -121,7 +121,7 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
 
     protected function getValueOrCallable($item, $param)
     {
-        return is_callable($param)
+        return is_only_callable($param)
             ? $param($item)
             : (is_object($item)
                 ? $item->{$param}
@@ -178,7 +178,7 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
         foreach ($this->collection as $item) {
             if (is_string($condition)) {
                 return in_array($condition, $this->collection);
-            } else if (is_callable($condition) && $condition($item)) {
+            } else if (is_only_callable($condition) && $condition($item)) {
                 return true;
             }
         }
@@ -392,7 +392,7 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
         $arr = [];
 
         foreach ($this->collection AS $row) {
-            $arr[is_callable($sortBy) ? $sortBy($row) : ($row->{$sortBy}())][] = $row;
+            $arr[is_only_callable($sortBy) ? $sortBy($row) : ($row->{$sortBy}())][] = $row;
         }
 
         ksort($arr);
@@ -419,7 +419,7 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
         $arrGroupped = [];
 
         foreach ($this->collection AS $row) {
-            if (is_callable($groupBy)) {
+            if (is_only_callable($groupBy)) {
                 $arrGroupped[$groupBy($row)][] = $row;
             } else {
                 $arrGroupped[$this->getValue($row, $groupBy)][] = $row;
@@ -441,7 +441,7 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
         $arrFiltered = [];
 
         foreach ($this->collection AS $i => $row) {
-            if (is_callable($filterBy)) {
+            if (is_only_callable($filterBy)) {
                 if ($filterBy($row, $i)) {
                     $arrFiltered[] = $row;
                 }
@@ -500,7 +500,7 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
         foreach ($this->collection as $item) {
             $collection->push(
                 $item,
-                is_callable($key)
+                is_only_callable($key)
                     ? $key($item)
                     : (
                 is_object($item)
@@ -662,7 +662,10 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
             }
         } else {
             foreach ($this->collection as $i => $item) {
-                $collection->push(is_callable($field) ? $field($item, $i) : $item->{$field}, $i);
+                $newItem = !is_string($field) && is_only_callable($field)
+                    ? $field($item, $i)
+                    : ($item->{$field});
+                $collection->push($newItem, $i);
             }
         }
 

@@ -688,7 +688,7 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
             return null;
         }
 
-        $collection = $this->collection;
+        $collection = $this;
         if ($field) {
             $collection = $this->map($field);
         }
@@ -706,7 +706,7 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
             return null;
         }
 
-        $collection = $this->collection;
+        $collection = $this;
         if ($field) {
             $collection = $this->map($field);
         }

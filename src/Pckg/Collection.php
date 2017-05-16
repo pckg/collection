@@ -48,6 +48,15 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
         return $this;
     }
 
+    public function pushArray($items)
+    {
+        foreach ($items as $item) {
+            $this->push($item);
+        }
+
+        return $this;
+    }
+
     /**
      * Remove element from end of array.
      */

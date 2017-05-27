@@ -17,6 +17,8 @@ class Tree extends Collection
      */
     protected $foreign;
 
+    protected $primary;
+
     /* sets callback to retreive relation/key */
 
     /**
@@ -24,9 +26,10 @@ class Tree extends Collection
      *
      * @return array
      */
-    public function getHierarchy($foreign)
+    public function getHierarchy($foreign, $primary = 'id')
     {
         $this->setForeign($foreign);
+        $this->setPrimary($primary);
 
         $parents = $this->getParents();
 
@@ -47,6 +50,11 @@ class Tree extends Collection
         $this->foreign = $foreign;
     }
 
+    public function setPrimary($primary)
+    {
+        $this->primary = $primary;
+    }
+
     /* transforms parent into object/array and children */
 
     /**
@@ -57,14 +65,21 @@ class Tree extends Collection
         $arrParents = [];
 
         foreach ($this->collection AS $row) {
-            if (!$row->{$this->foreign}) { // has no set parrent
+            $foreignValue = is_callable($this->foreign)
+                ? ($this->foreign)($row)
+                : $row->{$this->foreign};
+
+            if (!$foreignValue) { // has no set parent
                 $arrParents[] = $row;
                 continue;
             }
-            
+
             $found = false;
             foreach ($this->collection AS $row2) { // if has no parent
-                if ($row->{$this->foreign} == $row2->id) {
+                $primaryValue = is_callable($this->primary)
+                    ? ($this->primary)($row2)
+                    : $row2->id;
+                if ($foreignValue == $primaryValue) {
                     $found = true;
                     break;
                 }
@@ -87,7 +102,8 @@ class Tree extends Collection
     public function buildParent($parent)
     {
         $parent->getChildren = $this->buildChildren($parent);
-        $parent->subcontents = $parent->getChildren;
+
+        //$parent->subcontents = $parent->getChildren;
 
         return $parent;
     }
@@ -122,8 +138,14 @@ class Tree extends Collection
         $arrChildren = [];
 
         if ($parent) {
+            $primaryValue = is_callable($this->primary)
+                ? ($this->primary)($parent)
+                : ($parent->id);
             foreach ($this->collection AS $one) {
-                if ($parent->id == $one->{$this->foreign}) {
+                $foreignValue = is_callable($this->foreign)
+                    ? ($this->foreign)($one)
+                    : $one->{$this->foreign};
+                if ($primaryValue == $foreignValue) {
                     $arrChildren[] = $one;
                 }
             }

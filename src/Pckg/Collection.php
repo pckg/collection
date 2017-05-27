@@ -366,11 +366,33 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
      *
      * @return Collection
      */
-    public function getTree($foreign)
+    public function getTree($foreign, $primary = 'id')
     {
         $tree = new Collection\Tree($this->collection);
 
-        return new static($tree->getHierarchy($foreign));
+        return new static($tree->getHierarchy($foreign, $primary));
+    }
+
+    public function tree($foreign, $primary)
+    {
+        $children = [];
+        $parents = [];
+        $items = [];
+        foreach ($this->collection as $item) {
+            $parentId = $foreign($item);
+            $items[$primary($item)] = $item;
+            if ($parentId) {
+                $children[$parentId][] = $item;
+            } else {
+                $parents[] = $item;
+            }
+        }
+
+        foreach ($items as $primaryId => $item) {
+            $item->getChildren = $children[$primaryId] ?? [];
+        }
+
+        return new static($parents);
     }
 
     /**

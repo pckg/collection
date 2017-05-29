@@ -7,6 +7,7 @@ use JsonSerializable;
 use LimitIterator;
 use Pckg\Collection\Each;
 use Pckg\Collection\Iterator;
+use Pckg\Database\Object;
 use Pckg\Database\Record;
 use Throwable;
 
@@ -373,7 +374,7 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
         return new static($tree->getHierarchy($foreign, $primary));
     }
 
-    public function tree($foreign, $primary)
+    public function tree($foreign, $primary, $key = 'getChildren')
     {
         $children = [];
         $parents = [];
@@ -389,7 +390,7 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
         }
 
         foreach ($items as $primaryId => $item) {
-            $item->getChildren = $children[$primaryId] ?? [];
+            $item->{$key} = $children[$primaryId] ?? [];
         }
 
         return new static($parents);
@@ -829,12 +830,14 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
             $values = $this->collection;
         }
 
-        if (is_array($values) || object_implements($values, CollectionInterface::class)) {
+        if (is_string($values) || is_numeric($values)) {
+            return $values;
+        } else if ($values instanceof Record) {
+            $return = $values->__toArray(null, $depth - 1);
+        } else if ($values instanceof Object) {
+            $return = $this->__toArray($values->data(), $depth - 1);
+        } else if (is_array($values) || object_implements($values, CollectionInterface::class)) {
             foreach ($values as $key => $value) {
-                /*if (is_object($value) && object_implements($object, RecordInterface::class)) {
-                    $return[$key] = $object->toArray($object, $depth - 1);
-
-                } else */
                 if (is_object($value)) {
                     $return[$key] = $this->__toArray($value, $depth - 1);
                 } else if (is_array($value)) {
@@ -845,8 +848,6 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
                     $return[$key] = $value;
                 }
             }
-        } elseif ($values instanceof Record) {
-            $return = $values->__toArray(null, $depth - 1);
         }
 
         return $return;

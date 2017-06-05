@@ -750,7 +750,7 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
         return max(...$collection->all());
     }
 
-    public function implode($separator, $lastSeparator = null)
+    public function implode($separator = '', $lastSeparator = null)
     {
         if (!$this->collection) {
             return null;

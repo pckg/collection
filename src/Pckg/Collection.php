@@ -696,7 +696,7 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
             foreach ($this->collection as $i => $item) {
                 $newItem = !is_string($field) && is_only_callable($field)
                     ? $field($item, $i)
-                    : ($item->{$field});
+                    : (is_object($item) ? $item->{$field} : $item[$field]);
                 $collection->push($newItem, $i);
             }
         }

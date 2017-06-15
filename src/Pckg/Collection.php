@@ -257,7 +257,7 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
      */
     public function getKey($key, $default = null)
     {
-        return $this->collection[$key] ?? $default;
+        return array_key_exists($key, $this->collection) ? $this->collection[$key] : $default;
     }
 
     /**

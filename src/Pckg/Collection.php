@@ -237,9 +237,11 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
      * @return mixed
      * @throws Exception
      */
-    protected function getValue($object, $key)
+    protected function getValue($object, $key, $index = null)
     {
-        if (is_object($object) && method_exists($object, $key)) {
+        if (is_only_callable($key)) {
+            return $key($object, $index);
+        } else if (is_object($object) && method_exists($object, $key)) {
             return $object->{$key}();
         } else if (is_object($object) && isset($object->{$key})) {
             return $object->{$key};
@@ -379,18 +381,22 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
         $children = [];
         $parents = [];
         $items = [];
-        foreach ($this->collection as $item) {
-            $parentId = $foreign($item);
-            $items[$primary($item)] = $item;
+        foreach ($this->collection as &$item) {
+            $parentId = $this->getValue($item, $foreign);
+            $items[$this->getValue($item, $primary)] = &$item;
             if ($parentId) {
-                $children[$parentId][] = $item;
+                $children[$parentId][] = &$item;
             } else {
-                $parents[] = $item;
+                $parents[] = &$item;
             }
         }
 
-        foreach ($items as $primaryId => $item) {
-            $item->{$key} = $children[$primaryId] ?? [];
+        foreach ($items as $primaryId => &$item) {
+            if (is_array($item)) {
+                $item[$key] = &$children[$primaryId] ?? [];
+            } else {
+                $item->{$key} = &$children[$primaryId] ?? [];
+            }
         }
 
         return new static($parents);

@@ -381,21 +381,33 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
         $children = [];
         $parents = [];
         $items = [];
-        foreach ($this->collection as &$item) {
-            $parentId = $this->getValue($item, $foreign);
-            $items[$this->getValue($item, $primary)] = &$item;
-            if ($parentId) {
-                $children[$parentId][] = &$item;
-            } else {
-                $parents[] = &$item;
+        if (is_array($this->first())) {
+            foreach ($this->collection as &$item) {
+                $parentId = $this->getValue($item, $foreign);
+                $items[$this->getValue($item, $primary)] = &$item;
+                if ($parentId) {
+                    $children[$parentId][] = &$item;
+                } else {
+                    $parents[] = &$item;
+                }
             }
-        }
 
-        foreach ($items as $primaryId => &$item) {
-            if (is_array($item)) {
+            foreach ($items as $primaryId => &$item) {
                 $item[$key] = &$children[$primaryId] ?? [];
-            } else {
-                $item->{$key} = &$children[$primaryId] ?? [];
+            }
+        } else {
+            foreach ($this->collection as $item) {
+                $parentId = $this->getValue($item, $foreign);
+                $items[$this->getValue($item, $primary)] = $item;
+                if ($parentId) {
+                    $children[$parentId][] = $item;
+                } else {
+                    $parents[] = $item;
+                }
+            }
+
+            foreach ($items as $primaryId => $item) {
+                $item->{$key} = $children[$primaryId] ?? [];
             }
         }
 

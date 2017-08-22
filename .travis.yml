@@ -1,0 +1,37 @@
+language: php
+php:
+  - '7.0'
+  - '7.1'
+  - '7.2'
+git:
+  depth: 5
+services:
+  - mysql
+node_js:
+  - "0.10"
+install:
+  - "wget http://codeception.com/codecept.phar"
+  - "cp ./codeception.sample.travis.yml ./codeception.yml"
+script:
+  - php ./codecept.phar run
+sudo: true
+cache:
+  bundler: true
+  directories:
+    - vendor
+    - bower_components
+    - components
+    - $HOME/.composer/cache
+    - $HOME/.npm
+    - $HOME/.cache # includes bowers cache
+notifications:
+  email: false
+  webhooks:
+    urls:
+      - http://condo.foobar.si/webhook
+      - http://center.foobar.si/webhook
+    on_success: always # default: always
+    on_failure: always # default: always
+    on_start: always   # default: never
+    on_cancel: always # default: always
+    on_error: always # default: always

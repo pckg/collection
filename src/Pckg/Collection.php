@@ -384,7 +384,8 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
         if (is_array($this->first())) {
             foreach ($this->collection as &$item) {
                 $parentId = $this->getValue($item, $foreign);
-                $items[$this->getValue($item, $primary)] = &$item;
+                $primaryId = $this->getValue($item, $primary);
+                $items[$primaryId] = &$item;
                 if ($parentId) {
                     $children[$parentId][] = &$item;
                 } else {

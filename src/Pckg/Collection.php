@@ -249,7 +249,8 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
             return $object[$key];
         }
 
-        throw new Exception("Cannot find key $key in object " . get_class($object));
+        throw new Exception("Cannot find key $key in " .
+                            (is_object($object) ? ' object ' . get_class($object) : 'array'));
     }
 
     /**
@@ -697,7 +698,7 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
             /**
              * Map field.
              */
-            $data[$k] = $item->{$k};
+            $data[$k] = $this->getValue($item, $k);
         }
 
         return $data;
@@ -719,6 +720,17 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
                 $collection->push($newItem, $i);
             }
         }
+
+        return $collection;
+    }
+
+    public function only($keys)
+    {
+        $collection = new static();
+
+        $this->each(function($item, $key) use ($keys, $collection) {
+            $collection->push(only($item, $keys), $key);
+        });
 
         return $collection;
     }

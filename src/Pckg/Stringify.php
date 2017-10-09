@@ -20,6 +20,11 @@ class Stringify
         return explode($separator, $this->value);
     }
 
+    public function explodeToCollection($separator)
+    {
+        return new Collection($this->explode($separator));
+    }
+
     public function __toString()
     {
         return (string)$this->value;

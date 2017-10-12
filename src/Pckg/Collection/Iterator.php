@@ -1,6 +1,4 @@
-<?php
-
-namespace Pckg\Collection;
+<?php namespace Pckg\Collection;
 
 /**
  * Class Iterator
@@ -78,5 +76,5 @@ class Iterator extends \EmptyIterator
     {
         return count($this->collection);
     }
-    
+
 }

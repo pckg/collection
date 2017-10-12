@@ -1,6 +1,4 @@
-<?php
-
-namespace Pckg\Collection;
+<?php namespace Pckg\Collection;
 
 use Pckg\Collection;
 
@@ -17,6 +15,9 @@ class Tree extends Collection
      */
     protected $foreign;
 
+    /**
+     * @var
+     */
     protected $primary;
 
     /* sets callback to retreive relation/key */
@@ -50,6 +51,9 @@ class Tree extends Collection
         $this->foreign = $foreign;
     }
 
+    /**
+     * @param $primary
+     */
     public function setPrimary($primary)
     {
         $this->primary = $primary;

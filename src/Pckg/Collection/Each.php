@@ -2,6 +2,11 @@
 
 use Pckg\Collection;
 
+/**
+ * Class Each
+ *
+ * @package Pckg\Collection
+ */
 class Each
 {
 
@@ -10,14 +15,28 @@ class Each
      */
     protected $collection;
 
+    /**
+     * @var null
+     */
     protected $property;
 
+    /**
+     * Each constructor.
+     *
+     * @param      $collection
+     * @param null $property
+     */
     public function __construct($collection, $property = null)
     {
         $this->collection = $collection;
         $this->property = $property;
     }
 
+    /**
+     * @param callable $callback
+     *
+     * @return $this|Each
+     */
     public function goDeep(callable $callback)
     {
         if ($this->collection instanceof Collection) {
@@ -33,9 +52,16 @@ class Each
         );
     }
 
+    /**
+     * @param $name
+     * @param $args
+     *
+     * @return Collection|Each
+     */
     public function __call($name, $args)
     {
-        $this->/*collection->*/goDeep(
+        $this->/*collection->*/
+        goDeep(
             function($collection) use ($name, $args) {
                 call_user_func_array([$collection, $name], $args);
                 /*$collection->each(
@@ -49,6 +75,11 @@ class Each
         return $this->collection;
     }
 
+    /**
+     * @param $name
+     *
+     * @return Each
+     */
     public function __get($name)
     {
         if ($name == 'each') {

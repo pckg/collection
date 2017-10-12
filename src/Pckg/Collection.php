@@ -19,8 +19,17 @@ use Throwable;
 class Collection extends Iterator implements ArrayAccess, JsonSerializable, Countable, CollectionInterface
 {
 
+    /**
+     * @var
+     */
     protected $total;
 
+    /**
+     * @param $name
+     *
+     * @return Collection|Each
+     * @throws Exception
+     */
     public function __get($name)
     {
         if ($name == 'each') {
@@ -49,6 +58,11 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
         return $this;
     }
 
+    /**
+     * @param $items
+     *
+     * @return $this
+     */
     public function pushArray($items)
     {
         foreach ($items as $item) {
@@ -107,6 +121,9 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
         return new static(array_slice($this->collection, $offset, $length, $preserve_keys));
     }
 
+    /**
+     * @return array
+     */
     public function keys()
     {
         return array_keys($this->collection);
@@ -122,6 +139,9 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
         return array_keys($this->collection);
     }
 
+    /**
+     * @return int
+     */
     public function total()
     {
         return $this->total
@@ -129,6 +149,12 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
             : count($this->collection);
     }
 
+    /**
+     * @param $item
+     * @param $param
+     *
+     * @return mixed
+     */
     protected function getValueOrCallable($item, $param)
     {
         return is_only_callable($param)
@@ -138,6 +164,11 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
                 : $item[$param]);
     }
 
+    /**
+     * @param $callable
+     *
+     * @return float|mixed
+     */
     public function sum($callable)
     {
         $sum = 0.0;
@@ -152,11 +183,21 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
         return $sum;
     }
 
+    /**
+     * @param $callable
+     *
+     * @return float
+     */
     public function avg($callable)
     {
         return $this->sum($callable) / count($this->collection);
     }
 
+    /**
+     * @param $by
+     *
+     * @return static
+     */
     public function chunk($by)
     {
         $chunks = [];
@@ -176,6 +217,9 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
         return new static($chunks);
     }
 
+    /**
+     * @return $this
+     */
     public function shuffle()
     {
         shuffle($this->collection);
@@ -183,6 +227,11 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
         return $this;
     }
 
+    /**
+     * @param $condition
+     *
+     * @return bool
+     */
     public function has($condition)
     {
         foreach ($this->collection as $item) {
@@ -196,6 +245,11 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
         return false;
     }
 
+    /**
+     * @param $total
+     *
+     * @return $this
+     */
     public function setTotal($total)
     {
         $this->total = $total;
@@ -203,11 +257,17 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
         return $this;
     }
 
+    /**
+     * @return static
+     */
     public function copy()
     {
         return new static($this->collection);
     }
 
+    /**
+     * @param CollectionInterface $collection
+     */
     public function copyTo(CollectionInterface $collection)
     {
         $this->each(
@@ -217,6 +277,12 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
         );
     }
 
+    /**
+     * @param callable $callback
+     * @param bool     $preserveKeys
+     *
+     * @return Collection
+     */
     public function reduce(callable $callback, $preserveKeys = false)
     {
         $collection = new self();
@@ -377,6 +443,13 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
         return new static($tree->getHierarchy($foreign, $primary));
     }
 
+    /**
+     * @param        $foreign
+     * @param        $primary
+     * @param string $key
+     *
+     * @return static
+     */
     public function tree($foreign, $primary, $key = 'getChildren')
     {
         $children = [];
@@ -452,6 +525,9 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
         return $arr;
     }
 
+    /**
+     * @return null
+     */
     public function random()
     {
         if (!$this->collection) {
@@ -546,6 +622,11 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
         return new static($arrLimited);
     }
 
+    /**
+     * @param $key
+     *
+     * @return static
+     */
     public function keyBy($key)
     {
         $collection = new static();
@@ -565,6 +646,9 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
         return $collection;
     }
 
+    /**
+     * @return $this
+     */
     public function removeEmpty()
     {
         foreach ($this->collection as $key => $item) {
@@ -598,6 +682,9 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
         return null;
     }
 
+    /**
+     * @return null
+     */
     public function last()
     {
         return $this->collection
@@ -605,11 +692,19 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
             : null;
     }
 
+    /**
+     * @return array
+     */
     public function all()
     {
         return $this->collection;
     }
 
+    /**
+     * @param callable|null $callback
+     *
+     * @return $this|Each
+     */
     public function each(callable $callback = null)
     {
         if (!$callback) {
@@ -642,6 +737,11 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
         return $collection;
     }
 
+    /**
+     * @param $callback
+     *
+     * @return static
+     */
     public function eachManual($callback)
     {
         $collection = new static();
@@ -652,6 +752,11 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
         return $collection;
     }
 
+    /**
+     * @param $key
+     *
+     * @return static
+     */
     public function flat($key)
     {
         $collection = new static();
@@ -668,6 +773,9 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
         return $collection;
     }
 
+    /**
+     * @return Collection
+     */
     public function trim()
     {
         return $this->map(
@@ -677,6 +785,12 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
         );
     }
 
+    /**
+     * @param $item
+     * @param $mapper
+     *
+     * @return array
+     */
     private function privateMap($item, $mapper)
     {
         $data = [];
@@ -704,6 +818,11 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
         return $data;
     }
 
+    /**
+     * @param $field
+     *
+     * @return static
+     */
     public function map($field)
     {
         $collection = new static();
@@ -724,6 +843,11 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
         return $collection;
     }
 
+    /**
+     * @param $keys
+     *
+     * @return static
+     */
     public function only($keys)
     {
         $collection = new static();
@@ -735,16 +859,29 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
         return $collection;
     }
 
+    /**
+     * @param $rules
+     *
+     * @return array
+     */
     public function transform($rules)
     {
         return $this->map($rules)->all();
     }
 
+    /**
+     * @return static
+     */
     public function unique()
     {
         return new static(array_unique($this->collection));
     }
 
+    /**
+     * @param null $field
+     *
+     * @return mixed|null|Record
+     */
     public function min($field = null)
     {
         if (!$this->collection) {
@@ -763,6 +900,11 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
         return min(...$collection->all());
     }
 
+    /**
+     * @param null $field
+     *
+     * @return mixed|null|Record
+     */
     public function max($field = null)
     {
         if (!$this->collection) {
@@ -781,6 +923,12 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
         return max(...$collection->all());
     }
 
+    /**
+     * @param string $separator
+     * @param null   $lastSeparator
+     *
+     * @return null|string
+     */
     public function implode($separator = '', $lastSeparator = null)
     {
         if (!$this->collection) {
@@ -797,6 +945,10 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
         return implode($separator, $this->collection);
     }
 
+    /**
+     * @param mixed $offset
+     * @param mixed $value
+     */
     public function offsetSet($offset, $value)
     {
         if (is_null($offset)) {
@@ -806,16 +958,30 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
         }
     }
 
+    /**
+     * @param mixed $offset
+     *
+     * @return bool
+     */
     public function offsetExists($offset)
     {
         return isset($this->collection[$offset]);
     }
 
+    /**
+     * @param mixed $offset
+     */
     public function offsetUnset($offset)
     {
         unset($this->collection[$offset]);
     }
 
+    /**
+     * @param mixed $offset
+     *
+     * @return mixed
+     * @throws Exception
+     */
     public function offsetGet($offset)
     {
         if (!array_key_exists($offset, $this->collection)) {
@@ -831,11 +997,22 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
         return $this->collection[$offset];
     }
 
+    /**
+     * @param null $values
+     * @param int  $depth
+     *
+     * @return array
+     */
     public function toArray($values = null, $depth = 6)
     {
         return $this->__toArray($values, $depth);
     }
 
+    /**
+     * @param int $depth
+     *
+     * @return string
+     */
     public function toJSON($depth = 6)
     {
         try {
@@ -884,6 +1061,9 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
         return $return;
     }
 
+    /**
+     * @return array|Exception
+     */
     public function jsonSerialize()
     {
         try {
@@ -899,11 +1079,19 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
         return $serialize;
     }
 
+    /**
+     * @return string
+     */
     public function __toString()
     {
         return json_encode($this->jsonSerialize());
     }
 
+    /**
+     * @param $count
+     *
+     * @return $this|Collection
+     */
     public function multiply($count)
     {
         if ($count < 0) {

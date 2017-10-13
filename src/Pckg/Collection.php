@@ -4,7 +4,6 @@ use ArrayAccess;
 use Countable;
 use Exception;
 use JsonSerializable;
-use LimitIterator;
 use Pckg\Collection\Each;
 use Pckg\Collection\Iterator;
 use Pckg\Database\Object;
@@ -37,6 +36,41 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
         }
 
         throw new Exception('Calling ' . $name . ' on Collection');
+    }
+
+    /**
+     * @param $keys
+     *
+     * Remove items with speciffic keys.
+     */
+    public function removeKeys($keys)
+    {
+        foreach ($keys as $key) {
+            if (array_key_exists($key, $this->collection)) {
+                unset($this->collection[$key]);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param $keys
+     *
+     * Remove items with speciffic values.
+     */
+    public function removeValues($values)
+    {
+        foreach ($this->collection as $key => $value) {
+            foreach ($values as $val) {
+                if ($val == $value) {
+                    unset($this->collection[$key]);
+                    break;
+                }
+            }
+        }
+
+        return $this;
     }
 
     /**
@@ -599,7 +633,7 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
     }
 
     /**
-     * @return $this
+     * @return $this|Collection
      *
      * Remove empty elements from collection.
      */

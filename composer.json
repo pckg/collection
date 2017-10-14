@@ -13,7 +13,8 @@
   "autoload": {
     "psr-0": {
       "Pckg": "src\\"
-    }
+    },
+    "files": ["src/Pckg/Collection/Helper/functions.php"]
   },
   "minimum-stability": "dev"
 }

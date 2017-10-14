@@ -18,9 +18,10 @@ class MathTest extends \Codeception\Test\Unit
     // executed before each test
     protected function _before()
     {
-        $dir = realpath(__DIR__ . '/../../../src/');
+        $dir = realpath(__DIR__ . '/../../../src');
 
         Autoload::addNamespace('', $dir);
+        require_once $dir . '/Pckg/Collection/Helper/functions.php';
     }
 
     public function testCreation()

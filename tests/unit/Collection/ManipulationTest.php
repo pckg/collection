@@ -20,6 +20,7 @@ class ManipulationTest extends \Codeception\Test\Unit
         $dir = realpath(__DIR__ . '/../../../src/');
 
         Autoload::addNamespace('', $dir);
+        require_once $dir . '/Pckg/Collection/Helper/functions.php';
     }
 
     public function testCreation()

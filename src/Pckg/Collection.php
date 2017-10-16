@@ -297,11 +297,13 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
      */
     public function has($condition)
     {
+        if (in_array($condition, $this->collection)) {
+            return true;
+        }
+        
         foreach ($this->collection as $item) {
             if (is_only_callable($condition) && $condition($item)) {
                 return true;
-            } else {
-                return in_array($condition, $this->collection);
             }
         }
 

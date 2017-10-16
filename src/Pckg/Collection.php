@@ -384,7 +384,7 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
             return $key($object, $index);
         } else if (is_object($object) && method_exists($object, $key)) {
             return $object->{$key}();
-        } else if (is_object($object) && isset($object->{$key})) {
+        } else if (is_object($object)) {
             return $object->{$key};
         } else if (is_array($object) && array_key_exists($key, $object)) {
             return $object[$key];
@@ -738,10 +738,12 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
      *
      * Flatten 2d collection.
      */
-    public function flat()
+    public function flat($key = null)
     {
         $collection = new static();
-        $this->each(
+
+        $current = $key ? $this->map($key) : $this;
+        $current->each(
             function($item) use ($collection) {
                 collect($item)->each(
                     function($item) use ($collection) {
@@ -818,7 +820,7 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
             }
         } else {
             foreach ($this->collection as $i => $item) {
-                $newItem = !is_string($field) && is_only_callable($field)
+                $newItem = is_only_callable($field)
                     ? $field($item, $i)
                     : (is_object($item) ? $item->{$field} : $item[$field]);
                 $collection->push($newItem, $i);

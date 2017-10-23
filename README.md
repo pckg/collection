@@ -3,7 +3,7 @@
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/f98a48ae40b0432195e52c479115fcff)](https://www.codacy.com/app/schtr4jh/collection?utm_source=github.com&utm_medium=referral&utm_content=pckg/collection&utm_campaign=badger)
 
 
-Pckg/collection provides a ways handle collection of items / arrays and strings differently. It works really well with pckg/skeleton, pckg/framework and pckg/database.
+Pckg/collection provides a ways handle collection of items / arrays and strings differently. It works really well with [pckg/skeleton](https://github.com/pckg/skeleton), [pckg/framework](https://github.com/pckg/framework) and [pckg/database](https://github.com/pckg/database).
 
 # Installation
 

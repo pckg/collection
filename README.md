@@ -113,16 +113,16 @@ $keyed = $collection->keyBy('title');
 var_dump($keyed->all()); 
 
 /**
-[
-    'baz'     => [
-        'id'    => 1,
-        'title' => 'baz',
-    ],
-    'unknown' => [
-        'id'    => 2,
-        'title' => 'unknown',
-    ],
-]
+* [
+*     'baz'     => [
+*         'id'    => 1,
+*         'title' => 'baz',
+*     ],
+*     'unknown' => [
+*         'id'    => 2,
+*         'title' => 'unknown',
+*     ],
+* ]
 **/
 ```
 

@@ -68,9 +68,9 @@ $collection->last();
 
 ```
 
-## Callbacks
+# Callbacks
 
-### has
+## has
 
 Testing if collection has a set of values:
 
@@ -91,7 +91,7 @@ $collection->has(['id' => 1, 'title' => 'baz'])); // return true
 $collection->has(['id' => 2, 'title' => 'baz'])); // return false
 ```
 
-### Filtering entries
+## Filtering entries
 
 Return all itens that has a `true` return from annonymous function.
 
@@ -103,7 +103,7 @@ $filtered = $collection->filter(function($item) {
 var_dump($filtered->all()); // ['foo' => ['id' => 1, 'title' => 'baz']]
 ```
 
-### Seting keys
+## Seting keys
 
 Set entry keys by some array item value. At following sample all keys are setted by `title` inner array entry.
 
@@ -126,7 +126,7 @@ var_dump($keyed->all());
 **/
 ```
 
-### Get first item by satisfied check
+## Get first item by satisfied check
 
 Return the firt item that satisfies a logical test.
 
@@ -138,7 +138,7 @@ $first = $collection->first(function($item) {
 var_dump($first); //['id' => 2, 'title' => 'unknown']
 ```
 
-### Map key by inner value
+## Map key by inner value
 
 Map the key of each entry to a inner value based on inner key.
 
@@ -148,7 +148,7 @@ $mapped = $collection->map('title');
 var_dump($mapped->all()); // ['foo' => 'baz', 'bar' => 'unknown']
 ```
 
-## Keys and Values
+# Keys and Values
 
 ```php
 $collection = new Collection(['foo' => 'bar', 'baz' => 'test', 'john' => 'doe', 'jane' => 'name']);
@@ -183,9 +183,9 @@ $collection->hasKey('bz'); // false
 $collection->getKey('baz'); // 'test'
 ```
 
-## Manipulations
+# Manipulations
 
-### Slice a collection
+## Slice a collection
 
 ```php
 $collection = new Collection(['foo', 'bar', 'baz', '', ' untrimmed ']);
@@ -193,7 +193,7 @@ $collection = new Collection(['foo', 'bar', 'baz', '', ' untrimmed ']);
 $sliced = $collection->slice(1, 2); // ['bar', 'baz']
 ```
 
-### Chunk
+## Chunk
 
 Chunk by pieces.
 
@@ -210,21 +210,21 @@ $chunked = $collection->chunk(2);
 **/
 ```
 
-### Flat 
+## Flat 
 
 ```php
 
 $flatten = $chunked->flat(); // ['foo', 'bar', 'baz', '', ' untrimmed ']
 ```
 
-### Trim 
+## Trim 
    
 ```php
 
 $trimmed = $collection->trim(); // ['foo', 'bar', 'baz', '', 'untrimmed']
 ```
 
-### Multiply by x
+## Multiply by x
 
 Duplicate the items by the number passed.
 
@@ -248,7 +248,7 @@ $multiplied = $collection->multiply(2);
 **/
 ```
 
-### unique
+## unique
 
 Return a collection with no duplicated values
 
@@ -257,7 +257,7 @@ Return a collection with no duplicated values
 $unique = $multiplied->unique(); // ['foo', 'bar', 'baz', '', 'untrimmed']
 ```
 
-### Implode
+## Implode
 
 Get a string with all collection values separated by imploded char.
 
@@ -266,14 +266,14 @@ Get a string with all collection values separated by imploded char.
 $imploded = $collection->implode(' ', ' - '); // 'foo bar baz  -  untrimmed '
 ```
 
-### Remove empty values
+## Remove empty values
 
 ```php
   
 $nonEmpty = $collection->removeEmpty(); // ['foo', 'bar', 'baz', ' untrimmed ']
 ```
 
-## Math
+# Math
 
 ```php
 $collection = new Collection([2, 1, 13, 3, 1, 5, 21, 8]);

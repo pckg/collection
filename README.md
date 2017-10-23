@@ -272,3 +272,17 @@ $imploded = $collection->implode(' ', ' - '); // 'foo bar baz  -  untrimmed '
   
 $nonEmpty = $collection->removeEmpty(); // ['foo', 'bar', 'baz', ' untrimmed ']
 ```
+
+## Math
+
+```php
+$collection = new Collection([2, 1, 13, 3, 1, 5, 21, 8]);
+
+$sum = $collection->sum(); // 54
+
+$avg = $collection->avg(); // 6.75
+        
+$min = $collection->min(); // 1
+        
+$max = $collection->max(); // 21
+```

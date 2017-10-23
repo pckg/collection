@@ -182,3 +182,93 @@ $collection->hasKey('bz'); // false
 
 $collection->getKey('baz'); // 'test'
 ```
+
+## Manipulations
+
+### Slice a collection
+
+```php
+$collection = new Collection(['foo', 'bar', 'baz', '', ' untrimmed ']);
+
+$sliced = $collection->slice(1, 2); // ['bar', 'baz']
+```
+
+### Chunk
+
+Chunk by pieces.
+
+```php
+
+$chunked = $collection->chunk(2);
+
+/**
+* [
+*    ['foo', 'bar'], 
+*    ['baz', ''], 
+*    [' untrimmed ']
+* 
+**/
+```
+
+### Flat 
+
+```php
+
+$flatten = $chunked->flat(); // ['foo', 'bar', 'baz', '', ' untrimmed ']
+```
+
+### Trim 
+   
+```php
+
+$trimmed = $collection->trim(); // ['foo', 'bar', 'baz', '', 'untrimmed']
+```
+
+### Multiply by x
+
+Duplicate the items by the number passed.
+
+```php
+
+$multiplied = $collection->multiply(2);
+
+/**
+* [
+*    'foo',
+*    'bar',
+*    'baz',
+*    '',
+*    ' untrimmed ',
+*    'foo',
+*    'bar',
+*    'baz',
+*    '',
+*    ' untrimmed ',
+* ]
+**/
+```
+
+### unique
+
+Return a collection with no duplicated values
+
+```php
+
+$unique = $multiplied->unique(); // ['foo', 'bar', 'baz', '', 'untrimmed']
+```
+
+### Implode
+
+Get a string with all collection values separated by imploded char.
+
+```php
+
+$imploded = $collection->implode(' ', ' - '); // 'foo bar baz  -  untrimmed '
+```
+
+### Remove empty values
+
+```php
+  
+$nonEmpty = $collection->removeEmpty(); // ['foo', 'bar', 'baz', ' untrimmed ']
+```

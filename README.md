@@ -147,3 +147,38 @@ $mapped = $collection->map('title');
 
 var_dump($mapped->all()); // ['foo' => 'baz', 'bar' => 'unknown']
 ```
+
+## Keys and Values
+
+```php
+$collection = new Collection(['foo' => 'bar', 'baz' => 'test', 'john' => 'doe', 'jane' => 'name']);
+
+// get a collection with a removed entry based on it key
+
+$removedOne = $collection->removeKeys('baz');  // ['foo' => 'bar', 'john' => 'doe', 'jane' => 'name']
+
+// get a collection with several entries removed based on they keys
+        
+$removedMultiple = $collection->removeKeys(['baz', 'john']); // ['foo' => 'bar', 'jane' => 'name']
+        
+// get a collection with several entries removed based on they values
+        
+$removedValues = $collection->removeValues(['bar', 'test']); // ['john' => 'doe', 'jane' => 'name']
+
+// get all keys of a collection
+
+$keys = $collection->keys(); // ['foo', 'baz', 'john', 'jane']
+        
+// get all values of a collection
+
+$values = $collection->values(); // ['bar', 'test', 'doe', 'name']
+ 
+// test if a key exist
+
+$collection->hasKey('baz'); // true
+$collection->hasKey('bz'); // false
+
+// retrieve the value of a key
+
+$collection->getKey('baz'); // 'test'
+```

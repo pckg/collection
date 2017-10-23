@@ -67,3 +67,83 @@ $collection->first();
 $collection->last();
 
 ```
+
+## Callbacks
+
+### has
+
+Testing if collection has a set of values:
+
+```php
+$collection = new Collection([
+                                 'foo' => [
+                                     'id'    => 1,
+                                     'title' => 'baz',
+                                 ],
+                                 'bar' => [
+                                     'id'    => 2,
+                                     'title' => 'unknown',
+                                 ],
+                             ]);
+
+$collection->has(['id' => 1, 'title' => 'baz'])); // return true
+
+$collection->has(['id' => 2, 'title' => 'baz'])); // return false
+```
+
+### Filtering entries
+
+Return all itens that has a `true` return from annonymous function.
+
+```php
+$filtered = $collection->filter(function($item) {
+    return $item['id'] == 1;
+});
+
+var_dump($filtered->all()); // ['foo' => ['id' => 1, 'title' => 'baz']]
+```
+
+### Seting keys
+
+Set entry keys by some array item value. At following sample all keys are setted by `title` inner array entry.
+
+```php
+$keyed = $collection->keyBy('title');
+
+var_dump($keyed->all()); 
+
+/**
+[
+    'baz'     => [
+        'id'    => 1,
+        'title' => 'baz',
+    ],
+    'unknown' => [
+        'id'    => 2,
+        'title' => 'unknown',
+    ],
+]
+**/
+```
+
+### Get first item by satisfied check
+
+Return the firt item that satisfies a logical test.
+
+```php
+$first = $collection->first(function($item) { 
+   return $item['id'] > 1; 
+});
+
+var_dump($first); //['id' => 2, 'title' => 'unknown']
+```
+
+### Map key by inner value
+
+Map the key of each entry to a inner value based on inner key.
+
+```php
+$mapped = $collection->map('title');
+
+var_dump($mapped->all()); // ['foo' => 'baz', 'bar' => 'unknown']
+```

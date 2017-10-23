@@ -31,4 +31,39 @@ Test can be run with codeception
 $ cp ./codeception.sample.yml ./codeception.yml
 $ codecept run
 ```
+# Simple usage
 
+```php
+// create a new Collection
+
+$collection = new Collection();
+
+// push items to the last position of the collection
+
+// push some single items
+
+$collection->push('foo');
+$collection->push('bar');
+
+// push a whole array
+
+$collection->pushArray(['first', 'second']);
+
+// pop last item and remove it from collection
+
+$item = $collection->pop();
+
+// add an item at the first position
+
+$collection->prepend('prepended');
+
+// retrieve and remove first item
+
+$item = $collection->shift();
+
+// retrieve first and last items keeping then in colection
+
+$collection->first();
+$collection->last();
+
+```

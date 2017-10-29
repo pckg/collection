@@ -440,7 +440,7 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
      *
      * Build array tree from items.
      */
-    public function tree($foreign, $primary, $key = 'getChildren')
+    public function tree($foreign, $primary = 'id', $key = 'getChildren')
     {
         $children = [];
         $parents = [];

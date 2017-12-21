@@ -101,6 +101,26 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
     }
 
     /**
+     * @param      $item
+     * @param      $group
+     * @param null $key
+     *
+     * @return $this
+     *
+     * Add element to specified group.
+     */
+    public function pushToGroup($item, $group, $key = null)
+    {
+        if ($key || $key === 0) {
+            $this->collection[$group][$key] = $item;
+        } else {
+            $this->collection[$group][] = $item;
+        }
+
+        return $this;
+    }
+
+    /**
      * @param $items
      *
      * @return $this
@@ -300,7 +320,7 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
         if (in_array($condition, $this->collection)) {
             return true;
         }
-        
+
         foreach ($this->collection as $item) {
             if (is_only_callable($condition) && $condition($item)) {
                 return true;
@@ -1039,7 +1059,8 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
     public function toJSON($depth = 6)
     {
         try {
-            $json = json_encode((array)$this->__toArray(null, $depth), JSON_OBJECT_AS_ARRAY | JSON_NUMERIC_CHECK | JSON_PARTIAL_OUTPUT_ON_ERROR);
+            $json = json_encode((array)$this->__toArray(null, $depth),
+                                JSON_OBJECT_AS_ARRAY | JSON_NUMERIC_CHECK | JSON_PARTIAL_OUTPUT_ON_ERROR);
         } catch (Throwable $e) {
         }
 

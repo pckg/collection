@@ -151,13 +151,23 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
     /**
      * Add element to beginning of array.
      */
-    public function prepend($item)
+    public function prepend($item, $key = null)
     {
         if (!$this->collection) {
             return null;
         }
 
-        array_unshift($this->collection, $item);
+        if ($key) {
+            $collection = new static([$key => $item]);
+            foreach ($this->collection as $k => $i) {
+                $collection->push($item, $key);
+            }
+            $this->collection = $collection->all();
+        } else {
+            array_unshift($this->collection, $item);
+        }
+
+        return $this;
     }
 
     /**

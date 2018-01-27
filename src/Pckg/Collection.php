@@ -6,7 +6,7 @@ use Exception;
 use JsonSerializable;
 use Pckg\Collection\Each;
 use Pckg\Collection\Iterator;
-use Pckg\Database\Object;
+use Pckg\Database\Obj;
 use Pckg\Database\Record;
 use Throwable;
 
@@ -1096,7 +1096,7 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
             return $values;
         } else if ($values instanceof Record) {
             $return = $values->__toArray(null, $depth - 1);
-        } else if ($values instanceof Object) {
+        } else if ($values instanceof Obj) {
             $return = $this->__toArray($values->data(), $depth - 1);
         } else if (is_array($values) || object_implements($values, CollectionInterface::class)) {
             foreach ($values as $key => $value) {

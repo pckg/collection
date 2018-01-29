@@ -62,7 +62,9 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
     }
 
     /**
-     * @param $keys
+     * @param $values
+     *
+     * @return static
      *
      * Remove items with speciffic values.
      */
@@ -72,6 +74,28 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
 
         foreach ($this->collection as $key => $item) {
             if (in_array($item, $values)) {
+                continue;
+            }
+
+            $collection->push($item, $key);
+        }
+
+        return $collection;
+    }
+
+    /**
+     * @param $value
+     *
+     * @return static
+     *
+     * Remove $value from collection.
+     */
+    public function removeValue($value)
+    {
+        $collection = new static();
+
+        foreach ($this->collection as $key => $item) {
+            if ($item == $value) {
                 continue;
             }
 

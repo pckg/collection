@@ -62,6 +62,26 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
     }
 
     /**
+     * @param array $data
+     *
+     * @return mixed|Collection
+     */
+    public static function create($data = [])
+    {
+        $class = static::class;
+
+        return new $class($data);
+    }
+
+    /**
+     * @return mixed|Collection
+     */
+    public function rekey()
+    {
+        return static::create(array_values($this->collection));
+    }
+
+    /**
      * @param $values
      *
      * @return static

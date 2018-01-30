@@ -1,6 +1,7 @@
 <?php
 
 use Pckg\Collection;
+use Pckg\Stringify;
 
 if (!function_exists('collect')) {
     /**
@@ -12,6 +13,18 @@ if (!function_exists('collect')) {
     function collect($data, $of = Collection::class)
     {
         return new $of($data);
+    }
+}
+
+if (!function_exists('stringify')) {
+    /**
+     * @param $string
+     *
+     * @return Stringify
+     */
+    function stringify($string)
+    {
+        return new Stringify($string);
     }
 }
 

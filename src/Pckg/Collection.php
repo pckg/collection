@@ -197,14 +197,12 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
      */
     public function prepend($item, $key = null)
     {
-        if (!$this->collection) {
-            return null;
-        }
-
-        if ($key) {
+        if ($key || $key === 0 ||
+            ($this->collection && array_keys($this->collection) != range(0, count($this->collection) - 1))
+        ) {
             $collection = new static([$key => $item]);
             foreach ($this->collection as $k => $i) {
-                $collection->push($item, $key);
+                $collection->push($i, $k);
             }
             $this->collection = $collection->all();
         } else {

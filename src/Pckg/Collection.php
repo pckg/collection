@@ -202,6 +202,9 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
         ) {
             $collection = new static([$key => $item]);
             foreach ($this->collection as $k => $i) {
+                if ($k && is_string($key) && $k === $key) {
+                    continue; // do not overwrite item
+                }
                 $collection->push($i, $k);
             }
             $this->collection = $collection->all();

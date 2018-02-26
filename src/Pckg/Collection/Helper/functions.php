@@ -27,14 +27,3 @@ if (!function_exists('stringify')) {
         return new Stringify($string);
     }
 }
-
-if (!function_exists('is_only_callable')) {
-    function is_only_callable($input)
-    {
-        if (is_string($input)) {
-            return false;
-        }
-
-        return is_callable($input);
-    }
-}

@@ -680,6 +680,20 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
         return $collection;
     }
 
+    public function keyByValue()
+    {
+
+        $collection = new static();
+        foreach ($this->collection as $item) {
+            $collection->push(
+                $item,
+                $item
+            );
+        }
+
+        return $collection;
+    }
+
     /**
      * @param $key
      *

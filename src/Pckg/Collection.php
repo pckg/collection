@@ -421,6 +421,8 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
                 $collection->push($item);
             }
         );
+
+        return $this;
     }
 
     /**
@@ -586,7 +588,7 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
         $arr = [];
 
         foreach ($this->collection AS $row) {
-            $arr[is_only_callable($sortBy) ? $sortBy($row) : ($row->{$sortBy}())][] = $row;
+            $arr[is_only_callable($sortBy) ? $sortBy($row) : ($row->{$sortBy})][] = $row;
         }
 
         ksort($arr);

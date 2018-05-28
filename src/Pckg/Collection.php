@@ -414,15 +414,15 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
      *
      * Copy items from collection to another collection.
      */
-    public function copyTo(CollectionInterface $collection)
+    public function copyTo(CollectionInterface $collection, $preserveKeys = false)
     {
         $this->each(
-            function($item) use ($collection) {
-                $collection->push($item);
+            function($item, $i) use ($collection, $preserveKeys) {
+                $collection->push($item, $preserveKeys ? null : $i);
             }
         );
 
-        return $this;
+        return $collection;
     }
 
     /**

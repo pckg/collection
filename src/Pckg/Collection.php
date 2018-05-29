@@ -133,9 +133,9 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
      *
      * Add element to end of collection array.
      */
-    public function push($item, $key = null)
+    public function push($item, $key = null, $forceKey = false)
     {
-        if ($key || $key === 0) {
+        if ($key || $key === 0 || $forceKey) {
             $this->collection[$key] = $item;
         } else {
             $this->collection[] = $item;
@@ -418,7 +418,7 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
     {
         $this->each(
             function($item, $i) use ($collection, $preserveKeys) {
-                $collection->push($item, $preserveKeys ? null : $i);
+                $collection->push($item, $preserveKeys ? $i : null, $preserveKeys);
             }
         );
 

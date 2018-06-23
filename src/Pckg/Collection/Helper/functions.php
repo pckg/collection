@@ -10,7 +10,7 @@ if (!function_exists('collect')) {
      *
      * @return Collection
      */
-    function collect($data, $of = Collection::class)
+    function collect($data = [], $of = Collection::class)
     {
         return new $of($data);
     }

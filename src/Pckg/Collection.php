@@ -1099,13 +1099,7 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
     public function offsetGet($offset)
     {
         if (!array_key_exists($offset, $this->collection)) {
-            throw new Exception(
-                'Key ' . $offset . ' doesn\'t exist in collection ' . substr(
-                    implode(',', array_keys($this->collection)),
-                    0,
-                    20
-                )
-            );
+            return null;
         }
 
         return $this->collection[$offset];

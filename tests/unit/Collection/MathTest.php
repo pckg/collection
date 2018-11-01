@@ -4,7 +4,6 @@ namespace Collection;
 
 use Codeception\Util\Autoload;
 use Pckg\Collection;
-use Pckg\Stringify;
 use UnitTester;
 
 class MathTest extends \Codeception\Test\Unit

@@ -56,7 +56,9 @@ class CallbacksTest extends \Codeception\Test\Unit
                                 ],
                             ], $keyed->all());
 
-        $first = $collection->first(function($item) { return $item['id'] > 1; });
+        $first = $collection->first(function($item) {
+            return $item['id'] > 1;
+        });
         $this->assertEquals(['id' => 2, 'title' => 'unknown'], $first);
 
         $mapped = $collection->map('title');

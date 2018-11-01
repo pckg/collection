@@ -69,9 +69,7 @@ class Tree extends Collection
         $arrParents = [];
 
         foreach ($this->collection AS $row) {
-            $foreignValue = is_callable($this->foreign)
-                ? ($this->foreign)($row)
-                : $row->{$this->foreign};
+            $foreignValue = is_callable($this->foreign) ? ($this->foreign)($row) : $row->{$this->foreign};
 
             if (!$foreignValue) { // has no set parent
                 $arrParents[] = $row;
@@ -80,9 +78,7 @@ class Tree extends Collection
 
             $found = false;
             foreach ($this->collection AS $row2) { // if has no parent
-                $primaryValue = is_callable($this->primary)
-                    ? ($this->primary)($row2)
-                    : $row2->id;
+                $primaryValue = is_callable($this->primary) ? ($this->primary)($row2) : $row2->id;
                 if ($foreignValue == $primaryValue) {
                     $found = true;
                     break;
@@ -142,13 +138,9 @@ class Tree extends Collection
         $arrChildren = [];
 
         if ($parent) {
-            $primaryValue = is_callable($this->primary)
-                ? ($this->primary)($parent)
-                : ($parent->id);
+            $primaryValue = is_callable($this->primary) ? ($this->primary)($parent) : ($parent->id);
             foreach ($this->collection AS $one) {
-                $foreignValue = is_callable($this->foreign)
-                    ? ($this->foreign)($one)
-                    : $one->{$this->foreign};
+                $foreignValue = is_callable($this->foreign) ? ($this->foreign)($one) : $one->{$this->foreign};
                 if ($primaryValue == $foreignValue) {
                     $arrChildren[] = $one;
                 }

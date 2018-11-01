@@ -40,7 +40,6 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
 
     /**
      * @param $keys
-     *
      * Remove items with speciffic keys.
      */
     public function removeKeys($keys)
@@ -85,7 +84,6 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
      * @param $values
      *
      * @return static
-     *
      * Remove items with speciffic values.
      */
     public function removeValues($values)
@@ -107,7 +105,6 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
      * @param $value
      *
      * @return static
-     *
      * Remove $value from collection.
      */
     public function removeValue($value)
@@ -130,7 +127,6 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
      * @param null $key
      *
      * @return $this
-     *
      * Add element to end of collection array.
      */
     public function push($item, $key = null, $forceKey = false)
@@ -150,7 +146,6 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
      * @param null $key
      *
      * @return $this
-     *
      * Add element to specified group.
      */
     public function pushToGroup($item, $group, $key = null)
@@ -168,7 +163,6 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
      * @param $items
      *
      * @return $this
-     *
      * Push multiple items to end of collection array.
      */
     public function pushArray($items)
@@ -198,8 +192,7 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
     public function prepend($item, $key = null)
     {
         if ($key || $key === 0 ||
-            ($this->collection && array_keys($this->collection) != range(0, count($this->collection) - 1))
-        ) {
+            ($this->collection && array_keys($this->collection) != range(0, count($this->collection) - 1))) {
             $collection = new static([$key => $item]);
             foreach ($this->collection as $k => $i) {
                 if ($k && is_string($key) && $k === $key) {
@@ -233,7 +226,6 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
      * @param null $preserve_keys
      *
      * @return Collection
-     *
      * See php implementation of slice method.
      */
 
@@ -244,7 +236,6 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
 
     /**
      * @return array
-     *
      * Return collection keys.
      */
     public function keys()
@@ -254,7 +245,6 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
 
     /**
      * @return array
-     *
      * Return collection values.
      */
     public function values()
@@ -264,14 +254,11 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
 
     /**
      * @return int
-     *
      * Return count / total number of items in collection.
      */
     public function total()
     {
-        return $this->total
-            ? $this->total
-            : count($this->collection);
+        return $this->total ? $this->total : count($this->collection);
     }
 
     /**
@@ -279,32 +266,24 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
      * @param $param
      *
      * @return mixed
-     *
      * Returns item's property, array's key value or calls and returns callback, based on input.
      */
     protected function getValueOrCallable($item, $param)
     {
-        return is_only_callable($param)
-            ? $param($item)
-            : (is_object($item)
-                ? $item->{$param}
-                : $item[$param]);
+        return is_only_callable($param) ? $param($item) : (is_object($item) ? $item->{$param} : $item[$param]);
     }
 
     /**
      * @param $callable callable|string
      *
      * @return float|mixed
-     *
      * Sums values of data.
      */
     public function sum($callable = null)
     {
         $sum = 0.0;
         foreach ($this->collection as $item) {
-            $partial = $callable
-                ? $this->getValueOrCallable($item, $callable)
-                : $item;
+            $partial = $callable ? $this->getValueOrCallable($item, $callable) : $item;
             if ($partial > 0 || $partial < 0) {
                 $sum += $partial;
             }
@@ -317,7 +296,6 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
      * @param $callable
      *
      * @return float
-     *
      * Returns average value of collection
      */
     public function avg($callable = null)
@@ -329,7 +307,6 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
      * @param $by
      *
      * @return static
-     *
      * Chunks collection into multiple parts.
      */
     public function chunk($by)
@@ -353,7 +330,6 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
 
     /**
      * @return $this
-     *
      * Randomizes collection.
      */
     public function shuffle()
@@ -367,7 +343,6 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
      * @param $condition
      *
      * @return bool
-     *
      * Check if collection is holding speciffic item.
      */
     public function has($condition)
@@ -389,7 +364,6 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
      * @param $total
      *
      * @return $this
-     *
      * Set number of total items for partial collections.
      */
     public function setTotal($total)
@@ -401,7 +375,6 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
 
     /**
      * @return static
-     *
      * Copy items to new collection.
      */
     public function copy()
@@ -411,16 +384,13 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
 
     /**
      * @param CollectionInterface $collection
-     *
      * Copy items from collection to another collection.
      */
     public function copyTo(CollectionInterface $collection, $preserveKeys = false)
     {
-        $this->each(
-            function($item, $i) use ($collection, $preserveKeys) {
-                $collection->push($item, $preserveKeys ? $i : null, $preserveKeys);
-            }
-        );
+        $this->each(function($item, $i) use ($collection, $preserveKeys) {
+            $collection->push($item, $preserveKeys ? $i : null, $preserveKeys);
+        });
 
         return $collection;
     }
@@ -430,7 +400,6 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
      * @param bool     $preserveKeys
      *
      * @return Collection
-     *
      * Filters collection by condition.
      */
     public function reduce(callable $callback, $preserveKeys = false)
@@ -452,18 +421,17 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
      *
      * @return mixed
      * @throws Exception
-     *
      * Returns value based on input.
      */
     protected function getValue($object, $key, $index = null)
     {
         if (is_only_callable($key)) {
             return $key($object, $index);
-        } else if (is_object($object) && method_exists($object, $key)) {
+        } elseif (is_object($object) && method_exists($object, $key)) {
             return $object->{$key}();
-        } else if (is_object($object)) {
+        } elseif (is_object($object)) {
             return $object->{$key};
-        } else if (is_array($object) && array_key_exists($key, $object)) {
+        } elseif (is_array($object) && array_key_exists($key, $object)) {
             return $object[$key];
         }
 
@@ -475,7 +443,6 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
      * @param $key
      *
      * @return mixed
-     *
      * Get item by key.
      */
     public function getKey($key, $default = null)
@@ -487,7 +454,6 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
      * @param $key
      *
      * @return bool
-     *
      * Check if key exists in collection.
      */
     public function hasKey($key)
@@ -514,7 +480,6 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
      * @param string $key
      *
      * @return static
-     *
      * Build array tree from items.
      */
     public function tree($foreign = 'parent_id', $primary = 'id', $key = 'getChildren')
@@ -560,7 +525,6 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
      * @param $sortBy
      *
      * @return Collection
-     *
      * Sort items by condition.
      */
     public function sortBy($sortBy)
@@ -580,7 +544,6 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
      * @param $sortBy
      *
      * @return array
-     *
      * Group items and sort them by condition.
      */
     protected function groupAndSort($sortBy)
@@ -598,7 +561,6 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
 
     /**
      * @return null
-     *
      * Return random element from collection.
      */
     public function random()
@@ -614,7 +576,6 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
      * @param $groupBy
      *
      * @return Collection
-     *
      * Group items by input.
      */
     public function groupBy($groupBy)
@@ -638,7 +599,6 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
      * @param string $comparator
      *
      * @return Collection
-     *
      * Filter collection by filter condition.
      */
     public function filter($filterBy, $value = true, $comparator = '==')
@@ -653,27 +613,13 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
             } else {
                 $objectValue = $this->getValue($row, $filterBy);
 
-                if ((($comparator == '==')
-                     && ((is_array($value) && in_array($objectValue, $value))
-                         || ($objectValue == $value)
-                     )
-                     || (($comparator == '===')
-                         && ($objectValue === $value)
-                     )
-                     || (($comparator == '<=')
-                         && ($objectValue <= $value)
-                     )
-                     || (($comparator == '>=')
-                         && ($objectValue >= $value)
-                     )
-                     || (($comparator == '!=')
-                         && ($objectValue != $value)
-                     )
-                     || (($comparator == '!==')
-                         && ($objectValue !== $value)
-                     )
-                )
-                ) {
+                if ((($comparator == '==') &&
+                    ((is_array($value) && in_array($objectValue, $value)) || ($objectValue == $value)) ||
+                    (($comparator == '===') && ($objectValue === $value)) ||
+                    (($comparator == '<=') && ($objectValue <= $value)) ||
+                    (($comparator == '>=') && ($objectValue >= $value)) ||
+                    (($comparator == '!=') && ($objectValue != $value)) ||
+                    (($comparator == '!==') && ($objectValue !== $value)))) {
                     $collection->push($row, $i);
                 }
             }
@@ -687,10 +633,7 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
 
         $collection = new static();
         foreach ($this->collection as $item) {
-            $collection->push(
-                $item,
-                $item
-            );
+            $collection->push($item, $item);
         }
 
         return $collection;
@@ -700,23 +643,14 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
      * @param $key
      *
      * @return static
-     *
      * Key collection by key.
      */
     public function keyBy($key)
     {
         $collection = new static();
         foreach ($this->collection as $item) {
-            $collection->push(
-                $item,
-                is_only_callable($key)
-                    ? $key($item)
-                    : (
-                is_object($item)
-                    ? $item->{$key}
-                    : $item[$key]
-                )
-            );
+            $collection->push($item,
+                              is_only_callable($key) ? $key($item) : (is_object($item) ? $item->{$key} : $item[$key]));
         }
 
         return $collection;
@@ -724,7 +658,6 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
 
     /**
      * @return $this|Collection
-     *
      * Remove empty elements from collection.
      */
     public function removeEmpty($preserveKeys = false)
@@ -743,7 +676,6 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
 
     /**
      * @return null|mixed|Record
-     *
      * Return first item that meets condition.
      */
     public function first(callable $filter = null)
@@ -767,19 +699,15 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
 
     /**
      * @return null
-     *
      * Return last item.
      */
     public function last()
     {
-        return $this->collection
-            ? $this->collection[array_reverse(array_keys($this->collection))[0]]
-            : null;
+        return $this->collection ? $this->collection[array_reverse(array_keys($this->collection))[0]] : null;
     }
 
     /**
      * @return array
-     *
      * Return original collection.
      */
     public function all()
@@ -791,7 +719,6 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
      * @param callable|null $callback
      *
      * @return $this|Collection|Each|Collection\Each
-     *
      * Call $callback on each item in collection.
      */
     public function each(callable $callback = null)
@@ -811,7 +738,6 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
      * @param $callback
      *
      * @return static
-     *
      * Manually create new collection.
      */
     public function eachManual($callback)
@@ -826,7 +752,6 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
 
     /**
      * @return static
-     *
      * Flatten 2d collection.
      */
     public function flat($key = null)
@@ -834,31 +759,24 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
         $collection = new static();
 
         $current = $key ? $this->map($key) : $this;
-        $current->each(
-            function($item) use ($collection) {
-                collect($item)->each(
-                    function($item) use ($collection) {
-                        $collection->push($item);
-                    }
-                );
-            }
-        );
+        $current->each(function($item) use ($collection) {
+            collect($item)->each(function($item) use ($collection) {
+                $collection->push($item);
+            });
+        });
 
         return $collection;
     }
 
     /**
      * @return Collection
-     *
      * Trim each item in collection.
      */
     public function trim()
     {
-        return $this->map(
-            function($item) {
-                return trim($item);
-            }
-        );
+        return $this->map(function($item) {
+            return trim($item);
+        });
     }
 
     /**
@@ -898,7 +816,6 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
      * @param $field
      *
      * @return static
-     *
      * Map collection items.
      */
     public function map($field)
@@ -913,7 +830,8 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
             foreach ($this->collection as $i => $item) {
                 $newItem = is_only_callable($field)
                     ? $field($item, $i)
-                    : (is_object($item) ? $item->{$field} : $item[$field]);
+                    : (is_object($item) ? $item->{$field}
+                        : $item[$field]);
                 $collection->push($newItem, $i);
             }
         }
@@ -925,7 +843,6 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
      * @param $keys
      *
      * @return static
-     *
      * Filter fields in collection items.
      */
     public function only($keys)
@@ -943,7 +860,6 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
      * @param $rules
      *
      * @return array
-     *
      * Transform collection items by rules.
      */
     public function transform($rules)
@@ -953,7 +869,6 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
 
     /**
      * @return static
-     *
      * Make items unique.
      */
     public function unique()
@@ -965,7 +880,6 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
      * @param null $field
      *
      * @return mixed|null|Record
-     *
      * Return minimum value.
      */
     public function min($field = null)
@@ -990,7 +904,6 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
      * @param null $field
      *
      * @return mixed|null|Record
-     *
      * Return maximum value.
      */
     public function max($field = null)
@@ -1016,7 +929,6 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
      * @param null   $lastSeparator
      *
      * @return null|string
-     *
      * Implode collection items.
      */
     public function implode($separator = '', $lastSeparator = null)
@@ -1026,10 +938,8 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
         } elseif (count($this->collection) == 1) {
             return (string)$this->first();
         } elseif ($lastSeparator) {
-            return implode(
-                       $separator,
-                       $this->slice(0, $this->count() - 1)->all()
-                   ) . $lastSeparator . (string)$this->last();
+            return implode($separator, $this->slice(0, $this->count() - 1)->all()) . $lastSeparator .
+                (string)$this->last();
         }
 
         return implode($separator, $this->collection);
@@ -1039,7 +949,6 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
      * @param $count
      *
      * @return $this|Collection
-     *
      * Multiply collection items.
      */
     public function multiply($count)
@@ -1149,18 +1058,16 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
 
         if (is_string($values) || is_numeric($values)) {
             return $values;
-        } else if ($values instanceof Record) {
+        } elseif ($values instanceof Record) {
             $return = $values->__toArray(null, $depth - 1);
-        } else if ($values instanceof Obj) {
+        } elseif ($values instanceof Obj) {
             $return = $this->__toArray($values->data(), $depth - 1);
-        } else if (is_array($values) || object_implements($values, CollectionInterface::class)) {
+        } elseif (is_array($values) || object_implements($values, CollectionInterface::class)) {
             foreach ($values as $key => $value) {
                 if (is_object($value)) {
                     $return[$key] = $this->__toArray($value, $depth - 1);
-                } else if (is_array($value)) {
-                    $return[$key] = $value
-                        ? $this->__toArray($value, $depth - 1)
-                        : $value;
+                } elseif (is_array($value)) {
+                    $return[$key] = $value ? $this->__toArray($value, $depth - 1) : $value;
                 } else {
                     $return[$key] = $value;
                 }

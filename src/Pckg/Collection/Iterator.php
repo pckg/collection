@@ -18,7 +18,7 @@ class Iterator extends \EmptyIterator
      */
     public function __construct($array = [])
     {
-        $this->collection = $array;
+        $this->collection = $array ?? [];
     }
 
     /**

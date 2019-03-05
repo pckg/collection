@@ -648,9 +648,9 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
     public function keyBy($key)
     {
         $collection = new static();
-        foreach ($this->collection as $item) {
+        foreach ($this->collection as $i => $item) {
             $collection->push($item,
-                              is_only_callable($key) ? $key($item) : (is_object($item) ? $item->{$key} : $item[$key]));
+                              is_only_callable($key) ? $key($item, $i) : (is_object($item) ? $item->{$key} : $item[$key]));
         }
 
         return $collection;

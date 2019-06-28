@@ -86,12 +86,12 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
      * @return static
      * Remove items with speciffic values.
      */
-    public function removeValues($values)
+    public function removeValues($values, $strict = false)
     {
         $collection = new static();
 
         foreach ($this->collection as $key => $item) {
-            if (in_array($item, $values)) {
+            if (in_array($item, $values, $strict)) {
                 continue;
             }
 

@@ -345,8 +345,12 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
      * @return bool
      * Check if collection is holding speciffic item.
      */
-    public function has($condition)
+    public function has($condition = null)
     {
+        if (!$condition) {
+            return $this->count() > 0;
+        }
+        
         if (in_array($condition, $this->collection)) {
             return true;
         }

@@ -300,6 +300,10 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
      */
     public function avg($callable = null)
     {
+        if (!$this->collection) {
+            return null;
+        }
+
         return $this->sum($callable) / count($this->collection);
     }
 

@@ -581,6 +581,24 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
     }
 
     /**
+     * @return $this
+     */
+    public function reverse()
+    {
+        /**
+         * We do not want to modify current collection.
+         */
+        $collection = $this->collection;
+
+        /**
+         * Reverse it.
+         */
+        array_reverse($collection);
+
+        return new static($collection);
+    }
+
+    /**
      * @param $groupBy
      *
      * @return Collection

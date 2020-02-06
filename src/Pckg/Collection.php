@@ -856,6 +856,21 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
     }
 
     /**
+     * @param string $fn
+     * @param mixed  ...$args
+     */
+    public function mapFn(string $fn, ...$args)
+    {
+        if (!function_exists($fn)) {
+            throw new Exception('Function ' . $fn . ' does not exist.');
+        }
+
+        return $this->map(function($value) use ($fn, $args) {
+            return $fn($value, ...$args);
+        });
+    }
+
+    /**
      * @param $keys
      *
      * @return static

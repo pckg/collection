@@ -1069,7 +1069,7 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
         } catch (Throwable $e) {
         }
 
-        return $json ?? 'null';
+        return $json ?? '[]';
     }
 
     /**

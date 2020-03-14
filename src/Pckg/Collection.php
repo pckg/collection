@@ -535,11 +535,11 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
      * @return Collection
      * Sort items by condition.
      */
-    public function sortBy($sortBy)
+    public function sortBy($sortBy, $sort_flags = null)
     {
         $arrSort = [];
 
-        foreach ($this->groupAndSort($sortBy) AS $group) {
+        foreach ($this->groupAndSort($sortBy, $sort_flags) AS $group) {
             foreach ($group AS $row) {
                 $arrSort[] = $row;
             }
@@ -554,7 +554,7 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
      * @return array
      * Group items and sort them by condition.
      */
-    protected function groupAndSort($sortBy)
+    protected function groupAndSort($sortBy, $sort_flags = null)
     {
         $arr = [];
 
@@ -562,7 +562,7 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
             $arr[is_only_callable($sortBy) ? $sortBy($row) : ($row->{$sortBy})][] = $row;
         }
 
-        ksort($arr);
+        ksort($arr, $sort_flags);
 
         return $arr;
     }

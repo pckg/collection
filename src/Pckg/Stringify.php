@@ -52,6 +52,14 @@ class Stringify
     }
 
     /**
+     * @return mixed
+     */
+    public function jsonDecode($assoc = true, $options = JSON_PARTIAL_OUTPUT_ON_ERROR)
+    {
+        return json_decode($this->value, true, 512, $options);
+    }
+
+    /**
      * @return string
      */
     public function __toString()

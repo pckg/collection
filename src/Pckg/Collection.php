@@ -4,6 +4,7 @@ use ArrayAccess;
 use Countable;
 use Exception;
 use JsonSerializable;
+use Pckg\Collection\CollectionHelper;
 use Pckg\Collection\Each;
 use Pckg\Collection\Iterator;
 use Pckg\Database\Obj;
@@ -997,52 +998,6 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
         }
 
         return new Collection($items);
-    }
-
-    /**
-     * @param mixed $offset
-     * @param mixed $value
-     */
-    public function offsetSet($offset, $value)
-    {
-        if (is_null($offset)) {
-            $this->collection[] = $value;
-        } else {
-            $this->collection[$offset] = $value;
-        }
-    }
-
-    /**
-     * @param mixed $offset
-     *
-     * @return bool
-     */
-    public function offsetExists($offset)
-    {
-        return isset($this->collection[$offset]);
-    }
-
-    /**
-     * @param mixed $offset
-     */
-    public function offsetUnset($offset)
-    {
-        unset($this->collection[$offset]);
-    }
-
-    /**
-     * @param mixed $offset
-     *
-     * @return mixed
-     * @throws Exception
-     */
-    public function offsetGet($offset)
-    {
-        if (!array_key_exists($offset, $this->collection)) {
-            return null;
-        }
-
-        return $this->collection[$offset];
     }
 
     /**

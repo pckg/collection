@@ -536,15 +536,30 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
      * @return Collection
      * Sort items by condition.
      */
-    public function sortBy($sortBy, $sort_flags = null)
+    public function sortBy($sortBy = null, $sort_flags = null)
     {
+        if (!$sortBy) {
+            return $this->sort($sort_flags);
+        }
+        
         $arrSort = [];
-
         foreach ($this->groupAndSort($sortBy, $sort_flags) AS $group) {
             foreach ($group AS $row) {
                 $arrSort[] = $row;
             }
         }
+
+        return new static($arrSort);
+    }
+
+    /**
+     * @param int $sort_flags
+     * @return $this
+     */
+    public function sort($sort_flags = SORT_REGULAR)
+    {
+        $arrSort = $this->collection;
+        sort($arrSort, $sort_flags);
 
         return new static($arrSort);
     }

@@ -8,7 +8,7 @@ if (!function_exists('collect')) {
      * @param $data
      * @param $of
      *
-     * @return Collection
+     * @return Collection|mixed
      */
     function collect($data = [], $of = Collection::class)
     {

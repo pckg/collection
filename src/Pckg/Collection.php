@@ -269,9 +269,9 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
      * @return mixed
      * Returns item's property, array's key value or calls and returns callback, based on input.
      */
-    protected function getValueOrCallable($item, $param)
+    protected function getValueOrCallable($item, $param, $i)
     {
-        return is_only_callable($param) ? $param($item) : (is_object($item) ? $item->{$param} : $item[$param]);
+        return is_only_callable($param) ? $param($item, $i) : (is_object($item) ? $item->{$param} : $item[$param]);
     }
 
     /**
@@ -283,8 +283,8 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
     public function sum($callable = null)
     {
         $sum = 0.0;
-        foreach ($this->collection as $item) {
-            $partial = $callable ? $this->getValueOrCallable($item, $callable) : $item;
+        foreach ($this->collection as $i => $item) {
+            $partial = $callable ? $this->getValueOrCallable($item, $callable, $i) : $item;
             if ($partial > 0 || $partial < 0) {
                 $sum += $partial;
             }
@@ -575,7 +575,7 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
         $arr = [];
 
         foreach ($this->collection AS $i => $row) {
-            $arr[is_only_callable($sortBy) ? $sortBy($row, $i) : ($row->{$sortBy})][] = $row;
+            $arr[$this->getValueOrCallable($row, $sortBy, $i)][] = $row;
         }
 
         ksort($arr, $sort_flags);

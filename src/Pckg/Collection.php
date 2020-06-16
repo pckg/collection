@@ -1112,11 +1112,19 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
     }
 
     /**
+     * @return false|string
+     */
+    public function jsonEncode()
+    {
+        return json_encode($this->jsonSerialize()) ?? '[]';
+    }
+
+    /**
      * @return string
      */
     public function __toString()
     {
-        return json_encode($this->jsonSerialize());
+        return $this->jsonEncode();
     }
 
 }

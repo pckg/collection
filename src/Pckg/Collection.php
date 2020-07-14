@@ -1075,9 +1075,9 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
         if (is_string($values) || is_numeric($values)) {
             return $values;
         } elseif ($values instanceof Record) {
-            $return = $values->__toArray(null, $depth - 1);
+            return $values->__toArray(null, $depth - 1);
         } elseif ($values instanceof Obj) {
-            $return = $this->__toArray($values->data(), $depth - 1);
+            return $this->__toArray($values->data(), $depth - 1);
         } elseif (is_array($values) || object_implements($values, CollectionInterface::class)) {
             foreach ($values as $key => $value) {
                 if (is_object($value)) {
@@ -1088,6 +1088,8 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
                     $return[$key] = $value;
                 }
             }
+        } else if (object_implements($values, JsonSerializable::class)) {
+            return $values->jsonSerialize();
         }
 
         return $return;

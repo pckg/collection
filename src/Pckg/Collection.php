@@ -892,10 +892,6 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
      */
     public function mapFnObject(string $fn, ...$args)
     {
-        if (!function_exists($fn)) {
-            throw new Exception('Function ' . $fn . ' does not exist.');
-        }
-
         return $this->map(function($value) use ($fn, $args) {
             return $value->{$fn}(...$args);
         });

@@ -845,6 +845,15 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
     }
 
     /**
+     * @param callable $callable
+     * @return mixed
+     */
+    public function pass(callable $callable)
+    {
+        return $callable($this);
+    }
+
+    /**
      * @param $field
      *
      * @return static

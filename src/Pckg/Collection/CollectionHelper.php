@@ -14,6 +14,10 @@ trait CollectionHelper
         } else {
             $this->collection[$offset] = $value;
         }
+
+        if (method_exists($this, 'markDirty')) {
+            $this->markDirty();
+        }
     }
 
     /**
@@ -32,6 +36,10 @@ trait CollectionHelper
     public function offsetUnset($offset)
     {
         unset($this->collection[$offset]);
+
+        if (method_exists($this, 'markDirty')) {
+            $this->markDirty();
+        }
     }
 
     /**

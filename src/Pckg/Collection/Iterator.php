@@ -20,6 +20,13 @@ class Iterator extends \EmptyIterator
      */
     public function __construct($array = [])
     {
+        /**
+         * Objects can be passed, but they MUST implement __toArray();
+         */
+        if (is_object($array)) {
+            $array = $array->__toArray();
+        }
+
         $this->collection = $array ?? [];
     }
 

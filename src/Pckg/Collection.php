@@ -360,8 +360,8 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
             return true;
         }
 
-        foreach ($this->collection as $item) {
-            if (is_only_callable($condition) && $condition($item)) {
+        foreach ($this->collection as $i => $item) {
+            if (is_only_callable($condition) && $condition($item, $i)) {
                 return true;
             }
         }
@@ -614,9 +614,9 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
     {
         $arrGroupped = [];
 
-        foreach ($this->collection AS $row) {
+        foreach ($this->collection AS $i => $row) {
             if (is_only_callable($groupBy)) {
-                $arrGroupped[$groupBy($row)][] = $row;
+                $arrGroupped[$groupBy($row, $i)][] = $row;
             } else {
                 $arrGroupped[$this->getValue($row, $groupBy)][] = $row;
             }
@@ -720,8 +720,8 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
             return $this->collection[array_keys($this->collection)[0]];
         }
 
-        foreach ($this->collection as $item) {
-            if ($filter($item)) {
+        foreach ($this->collection as $i => $item) {
+            if ($filter($item, $i)) {
                 return $item;
             }
         }
@@ -730,7 +730,7 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
     }
 
     /**
-     * @return null
+     * @return null|mixed
      * Return last item.
      */
     public function last()
@@ -744,7 +744,7 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
      */
     public function all()
     {
-        return $this->collection;
+        return $this->collection ?? [];
     }
 
     /**

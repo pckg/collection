@@ -1,5 +1,7 @@
 <?php namespace Pckg\Collection;
 
+use Pckg\Collection;
+
 /**
  * Class Iterator
  *
@@ -20,10 +22,12 @@ class Iterator extends \EmptyIterator
      */
     public function __construct($array = [])
     {
-        /**
-         * Objects can be passed, but they MUST implement __toArray();
-         */
-        if (is_object($array)) {
+        if (is_object($array) && $array instanceof Collection) {
+            $array = $array->all();
+        } else if (is_object($array)) {
+            /**
+             * Objects can be passed, but they MUST implement __toArray();
+             */
             $array = $array->__toArray();
         }
 

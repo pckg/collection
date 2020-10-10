@@ -24,6 +24,11 @@ class Iterator extends \EmptyIterator
     {
         if (is_object($array) && $array instanceof Collection) {
             $array = $array->all();
+        } else if (is_object($array) && method_exists($array, 'toArray')) {
+            /**
+             * Objects can be passed, but they MUST implement __toArray();
+             */
+            $array = $array->toArray();
         } else if (is_object($array)) {
             /**
              * Objects can be passed, but they MUST implement __toArray();

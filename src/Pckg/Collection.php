@@ -15,6 +15,8 @@ use Throwable;
  * Class Collection
  *
  * @package Pckg\Database
+ *
+ * @property object|mixed $each
  */
 class Collection extends Iterator implements ArrayAccess, JsonSerializable, Countable, CollectionInterface
 {

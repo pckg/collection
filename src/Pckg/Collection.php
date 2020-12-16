@@ -357,18 +357,18 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
         if (!$condition) {
             return $this->count() > 0;
         }
-        
-        if (in_array($condition, $this->collection)) {
-            return true;
-        }
 
-        foreach ($this->collection as $i => $item) {
-            if (is_only_callable($condition) && $condition($item, $i)) {
-                return true;
+        if (is_only_callable($condition)) {
+            foreach ($this->collection as $i => $item) {
+                if ($condition($item, $i)) {
+                    return true;
+                }
             }
-        }
 
-        return false;
+            return false;
+        }
+        
+        return in_array($condition, $this->collection);
     }
 
     /**

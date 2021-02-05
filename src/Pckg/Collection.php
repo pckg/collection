@@ -42,12 +42,20 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
     }
 
     /**
+     * @return Collection
+     */
+    public function createSelf($collection = [])
+    {
+        return new self($collection);
+    }
+
+    /**
      * @param $keys
      * Remove items with speciffic keys.
      */
     public function removeKeys($keys)
     {
-        $collection = new static();
+        $collection = $this->createSelf();
         if (!is_array($keys)) {
             $keys = [$keys];
         }
@@ -91,7 +99,7 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
      */
     public function removeValues($values, $strict = false)
     {
-        $collection = new static();
+        $collection = $this->createSelf();
 
         foreach ($this->collection as $key => $item) {
             if (in_array($item, $values, $strict)) {
@@ -112,7 +120,7 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
      */
     public function removeValue($value)
     {
-        $collection = new static();
+        $collection = $this->createSelf();
 
         foreach ($this->collection as $key => $item) {
             if ($item == $value) {
@@ -196,7 +204,7 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
     {
         if ($key || $key === 0 ||
             ($this->collection && array_keys($this->collection) != range(0, count($this->collection) - 1))) {
-            $collection = new static([$key => $item]);
+            $collection = $this->createSelf([$key => $item]);
             foreach ($this->collection as $k => $i) {
                 if ($k && is_string($key) && $k === $key) {
                     continue; // do not overwrite item
@@ -234,7 +242,7 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
 
     public function slice($offset, $length = null, $preserve_keys = null)
     {
-        return new static(array_slice($this->collection, $offset, $length, $preserve_keys));
+        return $this->createSelf(array_slice($this->collection, $offset, $length, $preserve_keys));
     }
 
     /**
@@ -332,7 +340,7 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
             }
         }
 
-        return new static($chunks);
+        return $this->createSelf($chunks);
     }
 
     /**
@@ -390,7 +398,7 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
      */
     public function copy()
     {
-        return new static($this->collection);
+        return $this->createSelf($this->collection);
     }
 
     /**
@@ -482,7 +490,7 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
     {
         $tree = new Collection\Tree($this->collection);
 
-        return new static($tree->getHierarchy($foreign, $primary));
+        return $this->createSelf($tree->getHierarchy($foreign, $primary));
     }
 
     /**
@@ -529,7 +537,7 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
             }
         }
 
-        return new static($parents);
+        return $this->createSelf($parents);
     }
 
     /**
@@ -551,7 +559,7 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
             }
         }
 
-        return new static($arrSort);
+        return $this->createSelf($arrSort);
     }
 
     /**
@@ -563,7 +571,7 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
         $arrSort = $this->collection;
         sort($arrSort, $sort_flags);
 
-        return new static($arrSort);
+        return $this->createSelf($arrSort);
     }
 
     /**
@@ -603,7 +611,7 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
      */
     public function reverse()
     {
-        return new static(array_reverse($this->collection));
+        return $this->createSelf(array_reverse($this->collection));
     }
 
     /**
@@ -624,7 +632,7 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
             }
         }
 
-        return new static($arrGroupped);
+        return $this->createSelf($arrGroupped);
     }
 
     /**
@@ -637,7 +645,7 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
      */
     public function filter($filterBy, $value = true, $comparator = '==')
     {
-        $collection = new static();
+        $collection = $this->createSelf();
 
         foreach ($this->collection AS $i => $row) {
             if (is_only_callable($filterBy)) {
@@ -665,7 +673,7 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
     public function keyByValue()
     {
 
-        $collection = new static();
+        $collection = $this->createSelf();
         foreach ($this->collection as $item) {
             $collection->push($item, $item);
         }
@@ -681,7 +689,7 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
      */
     public function keyBy($key)
     {
-        $collection = new static();
+        $collection = $this->createSelf();
         foreach ($this->collection as $i => $item) {
             $collection->push($item,
                               is_only_callable($key) ? $key($item, $i) : (is_object($item) ? $item->{$key} : $item[$key]));
@@ -696,7 +704,7 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
      */
     public function removeEmpty($preserveKeys = false)
     {
-        $collection = new static();
+        $collection = $this->createSelf();
         foreach ($this->collection as $key => $item) {
             if (!$item) {
                 continue;
@@ -776,7 +784,7 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
      */
     public function eachManual($callback)
     {
-        $collection = new static();
+        $collection = $this->createSelf();
         foreach ($this->collection as $i => $item) {
             $callback($item, $i, $collection);
         }
@@ -790,7 +798,7 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
      */
     public function flat($key = null)
     {
-        $collection = new static();
+        $collection = $this->createSelf();
 
         $current = $key ? $this->map($key) : $this;
         $current->each(function($item) use ($collection) {
@@ -863,7 +871,7 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
      */
     public function map($field)
     {
-        $collection = new static();
+        $collection = $this->createSelf();
 
         if (is_array($field)) {
             foreach ($this->collection as $i => $item) {
@@ -916,7 +924,7 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
      */
     public function only($keys)
     {
-        $collection = new static();
+        $collection = $this->createSelf();
 
         $this->each(function($item, $key) use ($keys, $collection) {
             $collection->push(only($item, $keys), $key);
@@ -942,7 +950,7 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
      */
     public function unique()
     {
-        return new static(array_unique($this->collection));
+        return $this->createSelf(array_unique($this->collection));
     }
 
     /**

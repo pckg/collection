@@ -36,7 +36,7 @@ class Iterator extends \EmptyIterator
                  */
                 $array = $array->__toArray();
             } else {
-                throw new Exception('Object must implement toArray or __toArray to be collected');
+                throw new \Exception('Object must implement toArray or __toArray to be collected');
             }
         }
 

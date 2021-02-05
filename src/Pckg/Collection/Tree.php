@@ -1,4 +1,6 @@
-<?php namespace Pckg\Collection;
+<?php
+
+namespace Pckg\Collection;
 
 use Pckg\Collection;
 
@@ -34,7 +36,7 @@ class Tree extends Collection
 
         $parents = $this->getParents();
 
-        foreach ($parents AS &$parent) {
+        foreach ($parents as &$parent) {
             $parent = $this->buildParent($parent);
         }
 
@@ -68,7 +70,7 @@ class Tree extends Collection
     {
         $arrParents = [];
 
-        foreach ($this->collection AS $row) {
+        foreach ($this->collection as $row) {
             $foreignValue = is_callable($this->foreign) ? ($this->foreign)($row) : $row->{$this->foreign};
 
             if (!$foreignValue) { // has no set parent
@@ -77,7 +79,7 @@ class Tree extends Collection
             }
 
             $found = false;
-            foreach ($this->collection AS $row2) { // if has no parent
+            foreach ($this->collection as $row2) { // if has no parent
                 $primaryValue = is_callable($this->primary) ? ($this->primary)($row2) : $row2->id;
                 if ($foreignValue == $primaryValue) {
                     $found = true;
@@ -119,7 +121,7 @@ class Tree extends Collection
     {
         $arrChildren = $this->getChildren($parent);
 
-        foreach ($arrChildren AS &$child) {
+        foreach ($arrChildren as &$child) {
             $child = $this->buildParent($child);
         }
 
@@ -139,7 +141,7 @@ class Tree extends Collection
 
         if ($parent) {
             $primaryValue = is_callable($this->primary) ? ($this->primary)($parent) : ($parent->id);
-            foreach ($this->collection AS $one) {
+            foreach ($this->collection as $one) {
                 $foreignValue = is_callable($this->foreign) ? ($this->foreign)($one) : $one->{$this->foreign};
                 if ($primaryValue == $foreignValue) {
                     $arrChildren[] = $one;

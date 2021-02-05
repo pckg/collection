@@ -1,4 +1,6 @@
-<?php namespace Pckg\Collection;
+<?php
+
+namespace Pckg\Collection;
 
 use Pckg\Collection;
 
@@ -45,7 +47,7 @@ class Each
 
         $property = $this->property;
 
-        return $this->collection->goDeep(function($item) use ($property, $callback) {
+        return $this->collection->goDeep(function ($item) use ($property, $callback) {
             return $callback($item->{$property});
         });
     }
@@ -59,7 +61,7 @@ class Each
     public function __call($name, $args)
     {
         $this->/*collection->*/
-        goDeep(function($collection) use ($name, $args) {
+        goDeep(function ($collection) use ($name, $args) {
             call_user_func_array([$collection, $name], $args);
             /*$collection->each(
                 function($item) use ($name, $args) {
@@ -84,5 +86,4 @@ class Each
 
         return (new Each($this, $name));
     }
-
 }

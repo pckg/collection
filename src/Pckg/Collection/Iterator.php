@@ -1,4 +1,6 @@
-<?php namespace Pckg\Collection;
+<?php
+
+namespace Pckg\Collection;
 
 use Pckg\Collection;
 
@@ -9,7 +11,6 @@ use Pckg\Collection;
  */
 class Iterator extends \EmptyIterator
 {
-
     use CollectionHelper;
 
     /**
@@ -42,5 +43,4 @@ class Iterator extends \EmptyIterator
 
         $this->collection = $array ?? [];
     }
-
 }

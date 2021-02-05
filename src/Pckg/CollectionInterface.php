@@ -1,4 +1,6 @@
-<?php namespace Pckg;
+<?php
+
+namespace Pckg;
 
 /**
  * Interface CollectionInterface

@@ -1,4 +1,6 @@
-<?php namespace Pckg;
+<?php
+
+namespace Pckg;
 
 /**
  * Class Stringify
@@ -66,5 +68,4 @@ class Stringify
     {
         return (string)$this->value;
     }
-
 }

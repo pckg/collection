@@ -1,4 +1,6 @@
-<?php namespace Pckg\Collection;
+<?php
+
+namespace Pckg\Collection;
 
 trait CollectionHelper
 {
@@ -112,5 +114,4 @@ trait CollectionHelper
     {
         return count($this->collection);
     }
-    
 }

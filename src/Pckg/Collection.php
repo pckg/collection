@@ -48,7 +48,7 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
      */
     public function createCollection($collection = [])
     {
-        return new static($collection);
+        return new Collection($collection);
     }
 
     /**

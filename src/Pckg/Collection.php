@@ -728,19 +728,23 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
      * @return null|mixed|Record
      * Return first item that meets condition.
      */
-    public function first(callable $filter = null)
+    public function first(callable $filter = null, $returnKey = false)
     {
         if (!$this->collection) {
             return null;
         }
 
         if (!$filter) {
-            return $this->collection[array_keys($this->collection)[0]];
+            $keys = array_keys($this->collection);
+            if ($returnKey) {
+                return $keys[0];
+            }
+            return $this->collection[$keys[0]];
         }
 
         foreach ($this->collection as $i => $item) {
             if ($filter($item, $i)) {
-                return $item;
+                return $returnKey ? $i : $item;
             }
         }
 

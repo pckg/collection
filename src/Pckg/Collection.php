@@ -437,6 +437,15 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
 
         return $collection;
     }
+    
+    public function realReduce(callable $callback, $start)
+    {
+        foreach ($this->collection as $key => $item) {
+            $start = $callback($item, $key, $start, $this);
+        }
+
+        return $start;
+    }
 
     /**
      * @param $object

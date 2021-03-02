@@ -65,7 +65,7 @@ class ManipulationTest extends \Codeception\Test\Unit
         $nonEmpty = $collection->removeEmpty(true);
         $this->assertEquals(['foo', 'bar', 'baz', 4 => ' untrimmed '], $nonEmpty->all());
 
-        $reduced = $collection->reduce(function($item) {
+        $reduced = $collection->filter(function($item) {
             return strlen($item) == 3;
         });
         $this->assertEquals(['foo', 'bar', 'baz'], $reduced->all());

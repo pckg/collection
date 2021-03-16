@@ -28,6 +28,8 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
      */
     protected $total;
 
+    protected $object = false;
+
     /**
      * @param $name
      *
@@ -49,6 +51,27 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
     public function createCollection($collection = [])
     {
         return new Collection($collection);
+    }
+
+    /**
+     * @return $this
+     */
+    public function asObject($asObject = true)
+    {
+        $this->object = $asObject;
+
+        return $this;
+    }
+
+    /**
+     * @param bool $asCollection
+     * @return $this
+     */
+    public function asCollection($asCollection = true)
+    {
+        $this->object = !$asCollection;
+
+        return $this;
     }
 
     /**
@@ -437,7 +460,7 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
 
         return $collection;
     }
-    
+
     public function realReduce(callable $callback, $start)
     {
         foreach ($this->collection as $key => $item) {
@@ -1141,11 +1164,14 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
         try {
             $serialize = $this->__toArray();
         } catch (Throwable $e) {
-            return exception($e);
+            error_log('Exception in json serialize: ' . exception($e));
+            return null;
         }
 
         if (!$serialize) {
-            return [];
+            return $this->object
+                ? new \stdClass()
+                : [];
         }
 
         return $serialize;
@@ -1156,7 +1182,10 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
      */
     public function jsonEncode()
     {
-        return json_encode($this->jsonSerialize()) ?? '[]';
+        $empty = $this->object ? '{}' : '[]';
+        $flags = $this->object ? JSON_FORCE_OBJECT : JSON_OBJECT_AS_ARRAY;
+
+        return json_encode($this->jsonSerialize(), $flags) ?? $empty;
     }
 
     /**

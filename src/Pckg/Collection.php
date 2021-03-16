@@ -9,6 +9,7 @@ use JsonSerializable;
 use Pckg\Collection\CollectionHelper;
 use Pckg\Collection\Each;
 use Pckg\Collection\Iterator;
+use Pckg\Collection\Tryout;
 use Pckg\Database\Obj;
 use Pckg\Database\Record;
 use Throwable;
@@ -40,6 +41,8 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
     {
         if ($name == 'each') {
             return $this->each();
+        }   else if ($name == 'try') {
+            return $this->try();
         }
 
         throw new Exception('Calling ' . $name . ' on Collection');
@@ -818,6 +821,14 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
         }
 
         return $this;
+    }
+
+    /**
+     * @return $this|Tryout
+     */
+    public function try(&$e = [], callable $callback = null)
+    {
+        return (new Tryout($this))->setE($e)->setExceptionCallback($callback);
     }
 
     /**

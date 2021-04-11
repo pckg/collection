@@ -928,7 +928,11 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
     {
         $collection = $this->createCollection();
 
-        if (is_array($field)) {
+        if (is_bool($field)) {
+            foreach ($this->collection as $i => $item) {
+                $collection->push($field, $i);
+            }
+        } else if (is_array($field)) {
             foreach ($this->collection as $i => $item) {
                 $collection->push($this->privateMap($item, $field), $i);
             }

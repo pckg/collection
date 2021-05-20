@@ -896,14 +896,15 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
             /**
              * Map full relation.
              */
-            if ($k == '*') {
+            if ($k === '*') {
                 $data[$f] = $item->toArray();
                 continue;
             }
             /**
              * Map field.
+             * @warning: changed in May 2021! Was: $data[$k] = ...
              */
-            $data[$k] = $this->getValue($item, $k);
+            $data[is_int($f) ? $k : $f] = $this->getValue($item, $k);
         }
 
         return $data;

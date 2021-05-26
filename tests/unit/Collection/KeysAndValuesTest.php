@@ -49,6 +49,15 @@ class KeysAndValuesTest extends \Codeception\Test\Unit
 
         $this->assertEquals(true, $collection->hasKey('john'));
         $this->assertEquals(false, $collection->hasKey('johny'));
+
+        $rekeyed = $collection->rekey();
+        $this->assertEquals(['bar', 'test', 'doe', 'name'], $rekeyed->all());
+
+        $removedValues = $collection->removeValues(['bar', 'test']);
+        $this->assertEquals(['john' => 'doe', 'jane' => 'name'], $removedValues->all());
+
+        $removedValue = $collection->removeValue('foo');
+        $this->assertEquals($collection->all(), $removedValue->all());
     }
 
 }

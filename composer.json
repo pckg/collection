@@ -10,7 +10,8 @@
     }
   ],
   "require": {
-    "pckg/concept": "dev-master"
+    "pckg/concept": "dev-master",
+    "ext-json": "*"
   },
   "require-dev": {
     "pckg-app/frontend-dev": "dev-master",

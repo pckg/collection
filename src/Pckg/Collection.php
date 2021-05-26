@@ -41,7 +41,7 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
     {
         if ($name == 'each') {
             return $this->each();
-        }   else if ($name == 'try') {
+        } else if ($name == 'try') {
             return $this->try();
         }
 
@@ -51,7 +51,7 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
     /**
      * @return Collection
      */
-    public function createCollection($collection = [])
+    public function createCollection($collection = []): Collection
     {
         return new Collection($collection);
     }
@@ -59,7 +59,7 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
     /**
      * @return $this
      */
-    public function asObject($asObject = true)
+    public function asObject(bool $asObject = true)
     {
         $this->object = $asObject;
 
@@ -67,10 +67,21 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
     }
 
     /**
-     * @param bool $asCollection
      * @return $this
      */
-    public function asCollection($asCollection = true)
+    public function asArray(bool $asArray = true)
+    {
+        $this->object = !$asArray;
+
+        return $this;
+    }
+
+    /**
+     * @param bool $asCollection
+     * @return $this
+     * @deprecated
+     */
+    public function asCollection(bool $asCollection = true)
     {
         $this->object = !$asCollection;
 

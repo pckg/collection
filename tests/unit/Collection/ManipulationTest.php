@@ -41,17 +41,17 @@ class ManipulationTest extends \Codeception\Test\Unit
 
         $multiplied = $collection->multiply(2);
         $this->assertEquals([
-                                'foo',
-                                'bar',
-                                'baz',
-                                '',
-                                ' untrimmed ',
-                                'foo',
-                                'bar',
-                                'baz',
-                                '',
-                                ' untrimmed ',
-                            ], $multiplied->all());
+            'foo',
+            'bar',
+            'baz',
+            '',
+            ' untrimmed ',
+            'foo',
+            'bar',
+            'baz',
+            '',
+            ' untrimmed ',
+        ], $multiplied->all());
 
         $unique = $multiplied->unique();
         $this->assertEquals($unique->all(), $collection->all());
@@ -65,10 +65,19 @@ class ManipulationTest extends \Codeception\Test\Unit
         $nonEmpty = $collection->removeEmpty(true);
         $this->assertEquals(['foo', 'bar', 'baz', 4 => ' untrimmed '], $nonEmpty->all());
 
-        $reduced = $collection->filter(function($item) {
+        $filtered = $collection->filter(function ($item) {
             return strlen($item) == 3;
         });
-        $this->assertEquals(['foo', 'bar', 'baz'], $reduced->all());
+        $this->assertEquals(['foo', 'bar', 'baz'], $filtered->all());
+
+        $reduced = $collection->realReduce(function ($item, $key, $all) {
+            if (strpos($item, 'a') !== false) {
+                $all[] = $item;
+            }
+
+            return $all;
+        }, []);
+        $this->assertEquals(['bar', 'baz'], $reduced);
     }
 
 }

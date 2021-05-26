@@ -907,14 +907,15 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
             /**
              * Map full relation.
              */
-            if ($k == '*') {
+            if ($k === '*') {
                 $data[$f] = $item->toArray();
                 continue;
             }
             /**
              * Map field.
+             * @warning: changed in May 2021! Was: $data[$k] = ...
              */
-            $data[$k] = $this->getValue($item, $k);
+            $data[is_int($f) ? $k : $f] = $this->getValue($item, $k);
         }
 
         return $data;
@@ -939,7 +940,11 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
     {
         $collection = $this->createCollection();
 
-        if (is_array($field)) {
+        if (is_bool($field)) {
+            foreach ($this->collection as $i => $item) {
+                $collection->push($field, $i);
+            }
+        } else if (is_array($field)) {
             foreach ($this->collection as $i => $item) {
                 $collection->push($this->privateMap($item, $field), $i);
             }

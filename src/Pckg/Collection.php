@@ -243,7 +243,7 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
     {
         if (
             $key || $key === 0 ||
-            ($this->collection && array_keys($this->collection) != range(0, count($this->collection) - 1))
+            ($this->collection && array_keys($this->collection) != range(0, $this->count() - 1))
         ) {
             $collection = $this->createCollection([$key => $item]);
             foreach ($this->collection as $k => $i) {
@@ -310,7 +310,7 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
      */
     public function total()
     {
-        return $this->total ? $this->total : count($this->collection);
+        return $this->total ? $this->total : $this->count();
     }
 
     /**
@@ -356,7 +356,7 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
             return null;
         }
 
-        return $this->sum($callable) / count($this->collection);
+        return $this->sum($callable) / $this->count();
     }
 
     /**
@@ -828,7 +828,7 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
         }
 
         foreach ($this->collection as $i => $item) {
-            $callback($item, $i);
+            $callback($item, $i, $this);
         }
 
         return $this;
@@ -1083,7 +1083,7 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
     {
         if (!$this->collection) {
             return null;
-        } elseif (count($this->collection) == 1) {
+        } elseif ($this->count() === 1) {
             return (string)$this->first();
         } elseif ($lastSeparator) {
             return implode($separator, $this->slice(0, $this->count() - 1)->all()) . $lastSeparator .

@@ -625,6 +625,30 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
     }
 
     /**
+     * @param int $sort_flags
+     * @return $this
+     */
+    public function ksort($sort_flags = SORT_REGULAR)
+    {
+        $arrSort = $this->collection;
+        ksort($arrSort, $sort_flags);
+
+        return new static($arrSort);
+    }
+
+    /**
+     * @param int $sort_flags
+     * @return $this
+     */
+    public function asort($sort_flags = SORT_REGULAR)
+    {
+        $arrSort = $this->collection;
+        asort($arrSort, $sort_flags);
+
+        return new static($arrSort);
+    }
+
+    /**
      * @param $sortBy
      *
      * @return array

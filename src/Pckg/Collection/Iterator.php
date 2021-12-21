@@ -21,7 +21,7 @@ class Iterator extends \EmptyIterator
     /**
      * @param array $array
      */
-    public function __construct($array = [])
+    final public function __construct($array = [])
     {
         if (is_object($array)) {
             if ($array instanceof Collection) {

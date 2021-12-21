@@ -78,7 +78,6 @@ trait CollectionHelper
     /**
      * @return mixed
      */
-    #[\ReturnTypeWillChange]
     public function key()
     {
         return key($this->collection);
@@ -87,7 +86,6 @@ trait CollectionHelper
     /**
      * @return mixed
      */
-    #[\ReturnTypeWillChange]
     public function next(): mixed
     {
         return next($this->collection);

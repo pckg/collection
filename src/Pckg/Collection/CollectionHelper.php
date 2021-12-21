@@ -9,7 +9,7 @@ trait CollectionHelper
      * @param mixed $offset
      * @param mixed $value
      */
-    public function offsetSet($offset, $value)
+    public function offsetSet($offset, $value): void
     {
         if (is_null($offset)) {
             $this->collection[] = $value;
@@ -27,7 +27,7 @@ trait CollectionHelper
      *
      * @return bool
      */
-    public function offsetExists($offset)
+    public function offsetExists($offset): bool
     {
         return isset($this->collection[$offset]);
     }
@@ -35,7 +35,7 @@ trait CollectionHelper
     /**
      * @param mixed $offset
      */
-    public function offsetUnset($offset)
+    public function offsetUnset($offset): void
     {
         unset($this->collection[$offset]);
 
@@ -50,7 +50,7 @@ trait CollectionHelper
      * @return mixed
      * @throws Exception
      */
-    public function offsetGet($offset)
+    public function offsetGet($offset): mixed
     {
         if (!array_key_exists($offset, $this->collection)) {
             return null;
@@ -60,24 +60,25 @@ trait CollectionHelper
     }
 
     /**
-     * @return mixed
+     * @return void
      */
-    public function rewind()
+    public function rewind(): void
     {
-        return reset($this->collection);
+        reset($this->collection);
     }
 
     /**
      * @return mixed
      */
-    public function current()
+    public function current(): never
     {
-        return current($this->collection);
+        current($this->collection);
     }
 
     /**
      * @return mixed
      */
+    #[\ReturnTypeWillChange]
     public function key()
     {
         return key($this->collection);
@@ -86,7 +87,8 @@ trait CollectionHelper
     /**
      * @return mixed
      */
-    public function next()
+    #[\ReturnTypeWillChange]
+    public function next(): mixed
     {
         return next($this->collection);
     }
@@ -94,7 +96,7 @@ trait CollectionHelper
     /**
      * @return bool
      */
-    public function valid()
+    public function valid(): bool
     {
         return key($this->collection) !== null;
     }
@@ -110,7 +112,7 @@ trait CollectionHelper
     /**
      * @return int
      */
-    public function count()
+    public function count(): int
     {
         return count($this->collection);
     }

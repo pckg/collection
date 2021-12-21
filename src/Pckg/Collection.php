@@ -1210,7 +1210,7 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
     /**
      * @return array|Exception
      */
-    public function jsonSerialize()
+    public function jsonSerialize(): mixed
     {
         try {
             $serialize = $this->__toArray();

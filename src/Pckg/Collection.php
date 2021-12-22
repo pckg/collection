@@ -281,7 +281,7 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
      * See php implementation of slice method.
      */
 
-    public function slice($offset, $length = null, $preserve_keys = null)
+    public function slice($offset, ?int $length = null, bool $preserve_keys = false)
     {
         return $this->createCollection(array_slice($this->collection, $offset, $length, $preserve_keys));
     }

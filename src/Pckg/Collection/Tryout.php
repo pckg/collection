@@ -11,7 +11,6 @@ use Pckg\Collection;
  */
 class Tryout extends Each
 {
-
     protected $e = [];
 
     protected $tryMulti = false;
@@ -19,9 +18,6 @@ class Tryout extends Each
     protected $exceptionCallback = null;
 
     /**
-     * @param $name
-     * @param $args
-     *
      * @return Collection|Each
      */
     public function __call($name, $args)
@@ -30,14 +26,12 @@ class Tryout extends Each
             return $this->collection->{$name}(...$args);
         } catch (\Throwable $e) {
             $this->collectException($e);
+        } finally {
+            return $this->collection;
         }
-
-        return $this->collection;
     }
 
     /**
-     * @param $name
-     *
      * @return Each
      */
     public function __get($name)
@@ -46,9 +40,9 @@ class Tryout extends Each
             return $this->collection->{$name};
         } catch (\Throwable $e) {
             $this->collectException($e);
+        } finally {
+            return new Each($this);
         }
-
-        return new Each($this);
     }
 
     public function collectException(\Throwable $e)

@@ -5,9 +5,6 @@ use Pckg\Stringify;
 
 if (!function_exists('collect')) {
     /**
-     * @param $data
-     * @param $of
-     *
      * @return Collection|mixed
      */
     function collect($data = [], $of = Collection::class)
@@ -18,8 +15,6 @@ if (!function_exists('collect')) {
 
 if (!function_exists('stringify')) {
     /**
-     * @param $string
-     *
      * @return Stringify
      */
     function stringify($string)

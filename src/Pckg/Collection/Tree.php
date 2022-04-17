@@ -11,22 +11,13 @@ use Pckg\Collection;
  */
 class Tree extends Collection
 {
-
-    /**
-     * @var
-     */
     protected $foreign;
 
-    /**
-     * @var
-     */
     protected $primary;
 
     /* sets callback to retreive relation/key */
 
     /**
-     * @param $foreign
-     *
      * @return array
      */
     public function getHierarchy($foreign, $primary = 'id')
@@ -45,17 +36,11 @@ class Tree extends Collection
 
     /* builds tree */
 
-    /**
-     * @param $foreign
-     */
     public function setForeign($foreign)
     {
         $this->foreign = $foreign;
     }
 
-    /**
-     * @param $primary
-     */
     public function setPrimary($primary)
     {
         $this->primary = $primary;
@@ -97,8 +82,6 @@ class Tree extends Collection
     /* recursively builds parents */
 
     /**
-     * @param $parent
-     *
      * @return mixed
      */
     public function buildParent($parent)
@@ -113,8 +96,6 @@ class Tree extends Collection
     /* returns records with $this->foreign != true */
 
     /**
-     * @param null $parent
-     *
      * @return array
      */
     public function buildChildren($parent = null)
@@ -131,8 +112,6 @@ class Tree extends Collection
     /* returns records with $this->foreign != false */
 
     /**
-     * @param null $parent
-     *
      * @return array
      */
     public function getChildren($parent = null)

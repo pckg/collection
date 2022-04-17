@@ -18,9 +18,6 @@ class Iterator extends \EmptyIterator
      */
     protected $collection = [];
 
-    /**
-     * @param array $array
-     */
     final public function __construct($array = [])
     {
         if (is_object($array)) {

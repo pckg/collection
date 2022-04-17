@@ -4,7 +4,6 @@ namespace Pckg\Collection;
 
 trait CollectionHelper
 {
-
     /**
      * @param mixed $offset
      * @param mixed $value
@@ -48,7 +47,6 @@ trait CollectionHelper
      * @param mixed $offset
      *
      * @return mixed
-     * @throws Exception
      */
     public function offsetGet($offset): mixed
     {
@@ -70,9 +68,9 @@ trait CollectionHelper
     /**
      * @return mixed
      */
-    public function current(): never
+    public function current(): mixed
     {
-        current($this->collection);
+        return current($this->collection);
     }
 
     /**

@@ -11,7 +11,6 @@ use Pckg\Collection;
  */
 class Each
 {
-
     /**
      * @var Collection|Each
      */
@@ -24,9 +23,6 @@ class Each
 
     /**
      * Each constructor.
-     *
-     * @param      $collection
-     * @param null $property
      */
     public function __construct($collection, $property = null)
     {
@@ -53,9 +49,6 @@ class Each
     }
 
     /**
-     * @param $name
-     * @param $args
-     *
      * @return Collection|Each
      */
     public function __call($name, $args)
@@ -74,8 +67,6 @@ class Each
     }
 
     /**
-     * @param $name
-     *
      * @return Each
      */
     public function __get($name)

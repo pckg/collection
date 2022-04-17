@@ -9,7 +9,6 @@ namespace Pckg;
  */
 class Stringify
 {
-
     /**
      * @var string
      */
@@ -34,8 +33,6 @@ class Stringify
     }
 
     /**
-     * @param $separator
-     *
      * @return array
      */
     public function explode($separator)
@@ -44,8 +41,6 @@ class Stringify
     }
 
     /**
-     * @param $separator
-     *
      * @return Collection
      */
     public function explodeToCollection($separator)

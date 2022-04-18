@@ -2120,12 +2120,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/pckg/database.git",
-                "reference": "9875163b3dfa5e69c20bd5db33c513bcbfe6da14"
+                "reference": "b04632d0fc1aa3d0e070c00d64ddc76e5f9dce04"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pckg/database/zipball/9875163b3dfa5e69c20bd5db33c513bcbfe6da14",
-                "reference": "9875163b3dfa5e69c20bd5db33c513bcbfe6da14",
+                "url": "https://api.github.com/repos/pckg/database/zipball/b04632d0fc1aa3d0e070c00d64ddc76e5f9dce04",
+                "reference": "b04632d0fc1aa3d0e070c00d64ddc76e5f9dce04",
                 "shasum": ""
             },
             "require": {
@@ -2174,7 +2174,7 @@
                 "issues": "https://github.com/pckg/database/issues",
                 "source": "https://github.com/pckg/database/tree/next-8.0"
             },
-            "time": "2022-04-17T11:13:05+00:00"
+            "time": "2022-04-17T15:59:41+00:00"
         },
         {
             "name": "pckg/framework",
@@ -2182,12 +2182,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/pckg/framework.git",
-                "reference": "412dc9221a0d99c7f2b955cec797374e906a5b04"
+                "reference": "14126ca6a4a0a01221a35c0049cd3764f7709723"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pckg/framework/zipball/412dc9221a0d99c7f2b955cec797374e906a5b04",
-                "reference": "412dc9221a0d99c7f2b955cec797374e906a5b04",
+                "url": "https://api.github.com/repos/pckg/framework/zipball/14126ca6a4a0a01221a35c0049cd3764f7709723",
+                "reference": "14126ca6a4a0a01221a35c0049cd3764f7709723",
                 "shasum": ""
             },
             "require": {
@@ -2211,6 +2211,7 @@
                 "nesbot/carbon": "2.*",
                 "pckg-app/frontend-dev": "dev-next-8.0 as dev-master",
                 "pckg/auth": "dev-next-8.0 as dev-master",
+                "pckg/collection": "dev-next-8.0 as dev-master",
                 "pckg/database": "dev-next-8.0 as dev-master",
                 "pckg/htmlbuilder": "dev-next-8.0 as dev-master",
                 "pckg/mail": "dev-master",
@@ -2247,7 +2248,7 @@
                 "issues": "https://github.com/pckg/framework/issues",
                 "source": "https://github.com/pckg/framework/tree/next-8.0"
             },
-            "time": "2022-04-17T11:08:31+00:00"
+            "time": "2022-04-18T11:59:59+00:00"
         },
         {
             "name": "pckg/locale",
@@ -6562,5 +6563,5 @@
         "ext-json": "*"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.3.0"
+    "plugin-api-version": "2.2.0"
 }

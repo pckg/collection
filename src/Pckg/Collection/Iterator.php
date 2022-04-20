@@ -33,6 +33,8 @@ class Iterator extends \EmptyIterator
                  * Objects can be passed, but they MUST implement __toArray();
                  */
                 $array = $array->__toArray();
+            } else if ($array instanceof \stdClass) {
+                $array = (array)$array;
             } else {
                 throw new \Exception('Object must implement toArray or __toArray to be collected');
             }

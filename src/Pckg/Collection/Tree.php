@@ -103,7 +103,7 @@ class Tree extends Collection
      */
     public function buildParent($parent)
     {
-        $parent->getChildren = $this->buildChildren($parent);
+        $parent->getChildren = $parent->children = $this->buildChildren($parent);
 
         //$parent->subcontents = $parent->getChildren;
 

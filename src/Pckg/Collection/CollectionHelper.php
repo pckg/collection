@@ -67,7 +67,7 @@ trait CollectionHelper
 
     /**
      * @return mixed
-     */
+     * @phpstan-ignore-next-line */
     #[\ReturnTypeWillChange]
     public function current(): mixed
     {
@@ -76,7 +76,7 @@ trait CollectionHelper
 
     /**
      * @return mixed
-     */
+     * @phpstan-ignore-next-line */
     #[\ReturnTypeWillChange]
     public function key(): mixed
     {

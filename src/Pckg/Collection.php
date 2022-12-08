@@ -458,8 +458,7 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
             return $object[$key];
         }
 
-        throw new Exception("Cannot find key $key in " .
-            (is_object($object) ? ' object ' . get_class($object) : 'array'));
+        throw new Exception("Cannot find key $key ");
     }
 
     /**
@@ -764,7 +763,11 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
      */
     public function all()
     {
-        return $this->collection ?? [];
+        if ($this->collection) {
+            return $this->collection;
+        }
+
+        return [];
     }
 
     /**
@@ -1141,7 +1144,13 @@ class Collection extends Iterator implements ArrayAccess, JsonSerializable, Coun
         $empty = $this->object ? '{}' : '[]';
         $flags = $this->object ? JSON_FORCE_OBJECT : JSON_OBJECT_AS_ARRAY;
 
-        return json_encode($this->jsonSerialize(), $flags) ?? $empty;
+        $encoded = json_encode($this->jsonSerialize(), $flags);
+
+        if ($encoded) {
+            return $encoded;
+        }
+
+        return $empty;
     }
 
     /**

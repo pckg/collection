@@ -26,9 +26,9 @@ class Tryout extends Each
             return $this->collection->{$name}(...$args);
         } catch (\Throwable $e) {
             $this->collectException($e);
-        } finally {
-            return $this->collection;
         }
+
+        return $this->collection;
     }
 
     /**
@@ -38,11 +38,13 @@ class Tryout extends Each
     {
         try {
             return $this->collection->{$name};
+            // @phpstan-ignore-next-line
         } catch (\Throwable $e) {
             $this->collectException($e);
-        } finally {
-            return new Each($this);
         }
+
+        // @phpstan-ignore-next-line
+        return new Each($this);
     }
 
     public function collectException(\Throwable $e)
